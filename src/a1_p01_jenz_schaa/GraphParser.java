@@ -32,8 +32,10 @@ public class GraphParser {
 	    	//<NameKnoten1>[,<Attribut1>],<NameEcke2>[,<Attribut2>][,<Gewicht>]
 	    	
 	    	String firstLine = scanner.nextLine();
-	    	String secondLine = scanner.nextLine();
 	    	
+	    	// Hier müsste man schauen ob es die zweite Line überhaupt gibt. 
+//	    	String secondLine = scanner.nextLine();
+
 	    	// nur gerichtet
 	    	// gerichtet und gewichtet
 	    	// gerichtet und gewichtet und attributiert
@@ -42,7 +44,7 @@ public class GraphParser {
 	    	// ungerichtet und gewichtet
 	    	// ungerichtet und gewichtet und attributiert
 	    	
-	    	if(firstLine.equalsIgnoreCase("#gerichtet") && secondLine.equalsIgnoreCase("")){
+	    	if(firstLine.equalsIgnoreCase("#gerichtet")){
 	    		// Graph ist gerichtet
 	    		return parseDircetedGraph(scanner);
 	    	} else if(firstLine.equalsIgnoreCase("#ungerichtet")){
@@ -58,59 +60,38 @@ public class GraphParser {
 	      }
 	}
 	
-	private AbstractBaseGraph<String, DefaultEdge> parseUndircetedGraph(Scanner scanner){
-		AbstractBaseGraph<String, DefaultEdge> graph = 
-				new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
+	private Pseudograph<String, DefaultEdge> parseUndircetedGraph(Scanner scanner){
+		Pseudograph<String, DefaultEdge> graph = 
+				new Pseudograph<String, DefaultEdge>(DefaultEdge.class);
 		
 		// Format: v1,v2
 		String[] line; 
     	while (scanner.hasNextLine()){
     		line = splitLine(scanner.nextLine());
-    		addVertexAndEdge(graph, line[0], line[1]);
+    		print(line[0] +" to "+line[1]);
+    		graph.addVertex(line[0]);
+    		graph.addVertex(line[1]);
+    		graph.addEdge(line[0], line[1]);
 	    }
     	
     	return graph;
 	}
 	
 	private AbstractBaseGraph<String, DefaultEdge> parseDircetedGraph(Scanner scanner){
-		AbstractBaseGraph<String, DefaultEdge> graph = 
+		DefaultDirectedGraph<String, DefaultEdge> graph = 
 				new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
 		
 		// Format: v1,v2
 		String[] line; 
     	while (scanner.hasNextLine()){
     		line = splitLine(scanner.nextLine());
-    		addVertexAndEdge(graph, line[0], line[1]);
+    		print(line[0] +" to "+line[1]);
+    		graph.addVertex(line[0]);
+    		graph.addVertex(line[1]);
+    		graph.addEdge(line[0], line[1]);
 	    }
     	
     	return graph;
-	}
-	
-	private AbstractBaseGraph<String, DefaultEdge> parseDircetedWeightedGraph(Scanner scanner){
-		DefaultDirectedWeightedGraph<String, DefaultEdge> graph = 
-				new DefaultDirectedWeightedGraph<String, DefaultEdge>(DefaultEdge.class);
-		    	
-		// Format: v1,v2,Gewicht
-		String[] line; 
-    	while (scanner.hasNextLine()){
-    		line = splitLine(scanner.nextLine());
-    		addVertexAndEdgeWithWeight(graph, line[0], line[1], Double.parseDouble(line[2]));
-	    }
-		
-    	return graph;
-	}
-	
-	private void addVertexAndEdge(AbstractBaseGraph<String, DefaultEdge> graph, String vertex1, String vertex2){
-		graph.addVertex(vertex1);
-		graph.addVertex(vertex2);
-		graph.addEdge(vertex1, vertex2);
-	}
-	
-	private void addVertexAndEdgeWithWeight(AbstractBaseGraph<String, DefaultEdge> graph, String vertex1, String vertex2, double weight){
-		graph.addVertex(vertex1);
-		graph.addVertex(vertex2);
-		DefaultEdge e = graph.addEdge(vertex1, vertex2);
-		graph.setEdgeWeight(e, weight);
 	}
 	
 	private String[] splitLine(String line){
