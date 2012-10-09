@@ -1,4 +1,4 @@
-package a1_p01_jenz_schaa;
+package a1_p01_JS_MJ;
 
 import java.io.*;
 import java.util.Scanner;
