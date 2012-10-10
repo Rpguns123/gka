@@ -14,48 +14,33 @@ public class Breadth_First_Search {
 		Map<String, Integer> closed = new HashMap<String, Integer>();
 		List<String> open = new ArrayList<String>();
 //		int accesses = 0;
-		int layer = 0;
 		
 		open.add(start);
 		closed.put(start, 0);
 		
+		int graphClass = 0;
+		if( graph instanceof DefaultDirectedGraph){
+			graphClass = 1;
+		}	
+		
 		while (!open.isEmpty()){
 			String vertex = open.remove(0);
-			layer+=1;
 			
 			if (vertex == end){
 				break;
 			}
+			
 			List<String> neighbor = Graphs.neighborListOf(graph, vertex);
+			
 			for(String s : neighbor){
-				if(!closed.containsKey(s)){
-					System.out.println("conditional: "+!closed.containsKey(s));
-					System.out.println("BUM! von "+ vertex +" zu "+ s +" mit "+ layer);
+				if(!closed.containsKey(s) && graph.containsEdge(vertex, s)){
 					if(!open.contains(s)){
 						open.add(s);
 					}
-					closed.put(s, layer);
+					closed.put(s, closed.get(vertex)+1);
 				}
 			}
 		}
-		
-//		int length = closed.get(end);
-//		System.out.println("length "+ length);
-//		List<String> path = new ArrayList<String>(length+1);
-//		for(int i=0; i <= length; i++){
-//			path.add("");
-//		}
-//		
-//		path.add(length, end);
-//		for(int i=length; i>=0; i--){
-//			List<String> neighbor = Graphs.neighborListOf(graph, path.get(i));
-//			for(String s : neighbor){
-//				if(closed.get(s) == i-1){
-//					path.add(i-1, s);
-//					break;
-//				}
-//			}
-//		}
 		
 		int length = closed.get(end);
 		System.out.println("length "+ length);
@@ -71,7 +56,6 @@ public class Breadth_First_Search {
 				}
 			}
 		}
-		
 		
 		for(String s : path){
 			System.out.print(s +", ");
