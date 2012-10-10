@@ -7,16 +7,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jgrapht.graph.AbstractBaseGraph;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.graph.*;
 
 public class GraphvizAdapter {
 
 	public void buildDotFile(String graphName, AbstractBaseGraph<String, DefaultEdge> graph){
 	
 		int graphClass = 0;
-		if( graph instanceof DefaultDirectedGraph){
+		if( graph instanceof DirectedGraph){
 			graphClass = 1;
 		}		
 		
@@ -28,7 +27,7 @@ public class GraphvizAdapter {
 		for (DefaultEdge e : edges) {
 			dotGraph.append( 
 					graph.getEdgeSource(e) + " " + connector + " " + graph.getEdgeTarget(e) + 
-					" [ label = \"" + graph.getEdgeSource(e) + " / " + graph.getEdgeTarget(e) + "\"");
+					" [ label = \"" + graph.getEdgeSource(e) + "/" + graph.getEdgeTarget(e) + "\"");
 			
 			if( graphClass == 0 ){
 				dotGraph.append(", dir=none");
@@ -73,10 +72,12 @@ public class GraphvizAdapter {
 		Set<DefaultEdge> pathEdges = new HashSet<DefaultEdge>();
 		for(int i=0; i < path.size()-1; i++){
 			pathEdges.add(graph.getEdge(path.get(i), path.get(i+1)));
+			System.out.println("from "+path.get(i)+" to "+ path.get(i+1));
 		}
 		
+		
 		int graphClass = 0;
-		if( graph instanceof DefaultDirectedGraph){
+		if( graph instanceof DirectedGraph){
 			graphClass = 1;
 		}		
 		
@@ -88,7 +89,7 @@ public class GraphvizAdapter {
 		for (DefaultEdge e : edges) {
 			dotGraph.append( 
 					graph.getEdgeSource(e) + " " + connector + " " + graph.getEdgeTarget(e) + 
-					" [ label = \"" + graph.getEdgeSource(e) + " / " + graph.getEdgeTarget(e) + "\"");
+					" [ label = \"" + graph.getEdgeSource(e) + "/" + graph.getEdgeTarget(e) + "\"");
 			
 			if( graphClass == 0 ){
 				dotGraph.append(", dir=none");

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jgrapht.DirectedGraph;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.*;
 
@@ -19,7 +20,7 @@ public class Breadth_First_Search {
 		closed.put(start, 0);
 		
 		int graphClass = 0;
-		if( graph instanceof DefaultDirectedGraph){
+		if( graph instanceof DirectedGraph){
 			graphClass = 1;
 		}	
 		
