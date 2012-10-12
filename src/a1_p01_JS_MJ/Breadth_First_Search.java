@@ -72,4 +72,33 @@ public class Breadth_First_Search {
 		
 		return pathList;
 	}
+	
+	public static Map<String, Integer> getNodeColorList(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end){
+		Map<String, Integer> closed = new HashMap<String, Integer>();
+		List<String> open = new ArrayList<String>();
+		
+		open.add(start);
+		closed.put(start, 0);
+		
+		while (!open.isEmpty()){
+			String vertex = open.remove(0);
+			
+			if (vertex == end){
+				break;
+			}
+			
+			List<String> neighbor = Graphs.neighborListOf(graph, vertex);
+			
+			for(String s : neighbor){
+				if(!closed.containsKey(s) && graph.containsEdge(vertex, s)){
+					if(!open.contains(s)){
+						open.add(s);
+					}
+					closed.put(s, closed.get(vertex)+1);
+				}
+			}
+		}
+		
+		return closed;
+	}
 }
