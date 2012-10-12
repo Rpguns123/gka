@@ -6,15 +6,9 @@ import java.util.Scanner;
 import org.jgrapht.graph.*;
 
 public class GraphParser {
-
-	File file;
 	
-	public GraphParser(){
-		 
-	}
-	
-	public AbstractBaseGraph<String, DefaultEdge> parseGraphFile(String filename) throws IOException {
-		file = new File(filename);
+	public static AbstractBaseGraph<String, DefaultEdge> parseGraphFile(String filename) throws IOException {
+		File file = new File(filename);
 		Scanner scanner = new Scanner(new FileReader(file));
 	    try {
 	    	// Erste Zeile: #gerichtet|ungerichtet
@@ -51,14 +45,13 @@ public class GraphParser {
 	      }
 	}
 	
-	private Pseudograph<String, DefaultEdge> parseUndircetedGraph(Scanner scanner){
+	private static Pseudograph<String, DefaultEdge> parseUndircetedGraph(Scanner scanner){
 		Pseudograph<String, DefaultEdge> graph = 
 				new Pseudograph<String, DefaultEdge>(DefaultEdge.class);
 		
 		String[] line; 
     	while (scanner.hasNextLine()){
     		line = splitLine(scanner.nextLine());
-    		print(line[0] +" to "+line[1]);
     		graph.addVertex(line[0]);
     		graph.addVertex(line[1]);
     		graph.addEdge(line[0], line[1]);
@@ -67,9 +60,9 @@ public class GraphParser {
     	return graph;
 	}
 	
-	private DefaultDirectedGraph<String, DefaultEdge> parseDircetedGraph(Scanner scanner){
-		DefaultDirectedGraph<String, DefaultEdge> graph = 
-				new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
+	private static DirectedMultigraph<String, DefaultEdge> parseDircetedGraph(Scanner scanner){
+		DirectedMultigraph<String, DefaultEdge> graph = 
+				new DirectedMultigraph<String, DefaultEdge>(DefaultEdge.class);
 		
 		String[] line; 
     	while (scanner.hasNextLine()){
@@ -82,7 +75,7 @@ public class GraphParser {
     	return graph;
 	}
 	
-	private String[] splitLine(String line){
+	private static String[] splitLine(String line){
 		return line.split(",");
 	}
 	

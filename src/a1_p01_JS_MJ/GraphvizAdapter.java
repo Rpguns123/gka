@@ -12,7 +12,7 @@ import org.jgrapht.graph.*;
 
 public class GraphvizAdapter {
 
-	public void buildDotFile(String graphName, AbstractBaseGraph<String, DefaultEdge> graph){
+	public static void buildDotFile(String graphName, AbstractBaseGraph<String, DefaultEdge> graph){
 	
 		int graphClass = 0;
 		if( graph instanceof DirectedGraph){
@@ -41,7 +41,7 @@ public class GraphvizAdapter {
 		writeDotFile(graphName, dotGraph);
 	}
 	
-	private void writeDotFile(String graphName, StringBuilder dotGraph){
+	private static void writeDotFile(String graphName, StringBuilder dotGraph){
 		try {
 			File file = new File(graphName+".dot");
 			FileWriter fw = new FileWriter(file);
@@ -54,11 +54,9 @@ public class GraphvizAdapter {
 		catch( IOException e ) {
 			e.printStackTrace();
 		}
-		
-		compileDotFile(graphName);
 	}
 	
-	private void compileDotFile(String dotFileName){
+	public static void compileDotFile(String dotFileName){
 		String cmd = "/usr/local/bin/dot -Tpng -o" + dotFileName + ".png "+ dotFileName +".dot";
 		try {
 			Process process = Runtime.getRuntime().exec(cmd);
@@ -67,7 +65,7 @@ public class GraphvizAdapter {
 		}
 	}
 	
-	public void buildDotFileWithPathHighlighting(String graphName, AbstractBaseGraph<String, DefaultEdge> graph, List<String> path){
+	public static void buildDotFileWithPathHighlighting(String graphName, AbstractBaseGraph<String, DefaultEdge> graph, List<String> path){
 		
 		Set<DefaultEdge> pathEdges = new HashSet<DefaultEdge>();
 		for(int i=0; i < path.size()-1; i++){

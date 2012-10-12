@@ -11,7 +11,7 @@ import org.jgrapht.graph.*;
 
 public class Breadth_First_Search {
 
-	public List<String> searchShortestPath(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end){
+	public static List<String> searchShortestPath(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end){
 		Map<String, Integer> closed = new HashMap<String, Integer>();
 		List<String> open = new ArrayList<String>();
 //		int accesses = 0;
