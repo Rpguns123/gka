@@ -10,7 +10,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.*;
 
 public class Breadth_First_Search {
-
+static int acc = 0;
 	public static List<String> searchShortestPath(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end){
 		Map<String, Integer> closed = new HashMap<String, Integer>();
 		List<String> open = new ArrayList<String>();
@@ -18,7 +18,7 @@ public class Breadth_First_Search {
 		
 		open.add(start);
 		closed.put(start, 0);
-		
+		acc++;
 		int graphClass = 0;
 		if( graph instanceof DirectedGraph){
 			graphClass = 1;
@@ -26,7 +26,7 @@ public class Breadth_First_Search {
 		
 		while (!open.isEmpty()){
 			String vertex = open.remove(0);
-			
+			acc++;
 			if (vertex == end){
 				break;
 			}
@@ -34,6 +34,7 @@ public class Breadth_First_Search {
 			List<String> neighbor = Graphs.neighborListOf(graph, vertex);
 			
 			for(String s : neighbor){
+				acc++;
 				if(!closed.containsKey(s) && graph.containsEdge(vertex, s)){
 					if(!open.contains(s)){
 						open.add(s);
@@ -51,6 +52,7 @@ public class Breadth_First_Search {
 		for(int i=length; i>=0; i--){
 			List<String> neighbor = Graphs.neighborListOf(graph, path[i]);
 			for(String s : neighbor){
+				acc++;
 				if(closed.get(s) == i-1){
 					path[i-1] = s;
 					break;
@@ -69,7 +71,7 @@ public class Breadth_First_Search {
 			pathList.add(path[i]);
 		}
 			
-		
+		System.out.println(acc);
 		return pathList;
 	}
 	

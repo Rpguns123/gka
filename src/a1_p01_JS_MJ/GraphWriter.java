@@ -1,11 +1,9 @@
 package a1_p01_JS_MJ;
 
 import java.io.*;
-import java.util.Scanner;
 import java.util.Set;
 
 import org.jgrapht.DirectedGraph;
-import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.*;
 
 
@@ -30,8 +28,7 @@ public class GraphWriter {
 				file.createNewFile();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 			return false;
 		}
 		if(!file.canWrite())
