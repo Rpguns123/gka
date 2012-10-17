@@ -14,6 +14,7 @@ import org.junit.Test;
 import a1_p01_JS_MJ.Breadth_First_Search;
 import a1_p01_JS_MJ.Depth_First_Search;
 import a1_p01_JS_MJ.GraphParser;
+import a1_p01_JS_MJ.GraphvizAdapter;
 
 public class a1Test {
 
@@ -24,6 +25,9 @@ public class a1Test {
 	static List<String> shortestPath2;
 	 
 	@SuppressWarnings("serial")
+	static List<String> shortestPath1;
+	static List<String> shortestPath2;
+	 
 	@BeforeClass
 	public static void init() {
 		
@@ -54,16 +58,16 @@ public class a1Test {
 	@Test
 	public void breadth_first_graph1_test() {
 		List<String> result = Breadth_First_Search.searchShortestPath(graph1, "a", "f");
-		//Von A zu allen Anderen	
 		assertEquals(shortestPath1, result);
 		assertEquals(4, result.size()-1);
 		
-		/*try {
+		try {
 			GraphvizAdapter.buildDotFileWithPathHighlighting("breadth_first_graph1", graph1, result);
 			GraphvizAdapter.compileDotFile("breadth_first_graph1");
 		} catch(Exception ex){
 			fail("Could not draw Graph file.");
-		}*/
+		}
+		}
 	}
 	
 	@Test
@@ -72,12 +76,12 @@ public class a1Test {
 		assertEquals(shortestPath2, result);
 		assertEquals(2, result.size()-1);
 		
-		/*try {
+		try {
 			GraphvizAdapter.buildDotFileWithPathHighlighting("breadth_first_graph2", graph2, result);
 			GraphvizAdapter.compileDotFile("breadth_first_graph2");
 		} catch(Exception ex){
 			fail("Could not draw Graph file.");
-		}*/
+		}
 	}
 	
 	@SuppressWarnings("serial")
@@ -120,15 +124,18 @@ public class a1Test {
 		assertEquals(new ArrayList<String>(){{ add("f");add("a"); }}, Breadth_First_Search.searchShortestPath(graphk5, "f", "a"));
 		
 		
-		/*try {
+		try {
 			GraphvizAdapter.buildDotFileWithPathHighlighting("breadth_first_graph2", graph2, result);
 			GraphvizAdapter.compileDotFile("breadth_first_graph2");
 		} catch(Exception ex){
 			fail("Could not draw Graph file.");
-		}*/
+		}
 	}
 	
 	
+	
+		}
+	}
 	
 	@Test
 	public void depth_first_graph1_test() {
@@ -136,12 +143,18 @@ public class a1Test {
 		assertEquals(shortestPath1, result);
 		assertEquals(4, result.size()-1);
 		
-//		try {
-//			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph1", graph1, result);
-//			GraphvizAdapter.compileDotFile("depth_first_graph1");
-//		} catch(Exception ex){
-//			fail("Could not draw Graph file.");
-//		}
+		try {
+			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph1", graph1, result);
+			GraphvizAdapter.compileDotFile("depth_first_graph1");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		try {
+			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph1", graph1, result);
+			GraphvizAdapter.compileDotFile("depth_first_graph1");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
 	}
 	
 	@Test
@@ -150,12 +163,12 @@ public class a1Test {
 		assertEquals(shortestPath2, result);
 		assertEquals(2, result.size()-1);
 		
-//		try {
-//			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph2", graph2, result);
-//			GraphvizAdapter.compileDotFile("depth_first_graph2");
-//		} catch(Exception ex){
-//			fail("Could not draw Graph file.");
-//		}
+		try {
+			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph2", graph2, result);
+			GraphvizAdapter.compileDotFile("depth_first_graph2");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
 	}
 	@SuppressWarnings("serial")
 	@Test
@@ -198,11 +211,17 @@ public class a1Test {
 		
 		
 		
-//		try {
-//			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph2", graph2, result);
-//			GraphvizAdapter.compileDotFile("depth_first_graph2");
-//		} catch(Exception ex){
-//			fail("Could not draw Graph file.");
-//		}
+		try {
+			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph2", graph2, result);
+			GraphvizAdapter.compileDotFile("depth_first_graph2");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		try {
+			GraphvizAdapter.buildDotFileWithPathHighlighting("depth_first_graph2", graph2, result);
+			GraphvizAdapter.compileDotFile("depth_first_graph2");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
 	}
 }
