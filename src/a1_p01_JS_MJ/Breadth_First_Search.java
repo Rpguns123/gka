@@ -10,23 +10,17 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.*;
 
 public class Breadth_First_Search {
-static int acc = 0;
-	public static List<String> searchShortestPath(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end){
+
+	public static SearchResult searchShortestPath(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end){
 		Map<String, Integer> closed = new HashMap<String, Integer>();
 		List<String> open = new ArrayList<String>();
-//		int accesses = 0;
+		int acc = 1;
 		
 		open.add(start);
 		closed.put(start, 0);
-		acc++;
-		int graphClass = 0;
-		if( graph instanceof DirectedGraph){
-			graphClass = 1;
-		}	
 		
 		while (!open.isEmpty()){
 			String vertex = open.remove(0);
-			acc++;
 			if (vertex == end){
 				break;
 			}
@@ -45,7 +39,6 @@ static int acc = 0;
 		}
 		
 		int length = closed.get(end);
-		System.out.println("length "+ length);
 		String[] path = new String[length+1];
 		
 		path[length] = end;
@@ -60,47 +53,11 @@ static int acc = 0;
 			}
 		}
 		
-		for(String s : path){
-			System.out.print(s +", ");
-		}
-		System.out.println();
-		System.out.println("path size" + path.length);
-		
 		List<String> pathList = new ArrayList<String>();
 		for(int i=0; i<path.length;i++){
 			pathList.add(path[i]);
 		}
 			
-		System.out.println(acc);
-		return pathList;
-	}
-	
-	public static Map<String, Integer> getNodeColorList(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end){
-		Map<String, Integer> closed = new HashMap<String, Integer>();
-		List<String> open = new ArrayList<String>();
-		
-		open.add(start);
-		closed.put(start, 0);
-		
-		while (!open.isEmpty()){
-			String vertex = open.remove(0);
-			
-			if (vertex == end){
-				break;
-			}
-			
-			List<String> neighbor = Graphs.neighborListOf(graph, vertex);
-			
-			for(String s : neighbor){
-				if(!closed.containsKey(s) && graph.containsEdge(vertex, s)){
-					if(!open.contains(s)){
-						open.add(s);
-					}
-					closed.put(s, closed.get(vertex)+1);
-				}
-			}
-		}
-		
-		return closed;
+		return new SearchResult(graph, pathList, closed, acc);
 	}
 }

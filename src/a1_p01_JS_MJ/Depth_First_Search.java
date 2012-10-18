@@ -11,22 +11,29 @@ import org.jgrapht.graph.*;
 public class Depth_First_Search {
 	static int acc = 1;
 
-	public static List<String> searchShortestPath(
+	public static SearchResult searchShortestPath(
 			AbstractBaseGraph<String, DefaultEdge> graph, String start,
 			String end) {
+		
 		if (!graph.containsVertex(end))
-			return new ArrayList<String>();
+			return new SearchResult(graph, new ArrayList<String>(), new HashMap<String, Integer>(), acc);
+//			return new ArrayList<String>();
+		
 		List<String> open = new ArrayList<String>();
 		open.add(start);
 		if (start == end)
-			return open;
+			return new SearchResult(graph, open, new HashMap<String, Integer>(), acc);
+//			return open;
 
 		Map<String, Integer> closed = new HashMap<String, Integer>();
 		closed.put(start, 0);
 		dfs_rek1(open, closed, end, 0, graph);
-		return createPath(closed, end, graph);
+		
+		List<String> path = createPath(closed, end, graph);
+		return new SearchResult(graph, path, closed, acc);
+//		return createPath(closed, end, graph);
 	}
-
+	
 	private static List<String> createPath(Map<String, Integer> closed,
 			String end, AbstractBaseGraph<String, DefaultEdge> graph) {
 		List<String> ret = new ArrayList<String>();
@@ -45,11 +52,7 @@ public class Depth_First_Search {
 					}
 				}
 			}
-			for (String s : path) {
-				ret.add(s);
-			}
 		}
-		System.out.println(acc);
 		return ret;
 	}
 
