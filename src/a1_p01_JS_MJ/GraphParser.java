@@ -78,8 +78,4 @@ public class GraphParser {
 	private static String[] splitLine(String line){
 		return line.split(",");
 	}
-	
-	private void print(String s){
-		System.out.println(s);
-	}
 }

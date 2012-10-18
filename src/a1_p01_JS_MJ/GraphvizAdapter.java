@@ -25,7 +25,8 @@ public class GraphvizAdapter {
 		dotGraph.append("digraph "+ graphName +" { \n");
 		String connector = "->";
 		
-		dotGraph.append("size=\"36,36\";\n" +
+		dotGraph.append("label=\""+ graphName +"\"" +
+				"size=\"36,36\";\n" +
 				"node [fontname=\"Verdana\", size=\"30,30\", style=filled];\n" +
 				"overlap = scale;\n" +
 				"splines = true;\n");
@@ -77,7 +78,6 @@ public class GraphvizAdapter {
 		Set<DefaultEdge> pathEdges = new HashSet<DefaultEdge>();
 		for(int i=0; i < path.size()-1; i++){
 			pathEdges.add(graph.getEdge(path.get(i), path.get(i+1)));
-			System.out.println("from "+path.get(i)+" to "+ path.get(i+1));
 		}
 		
 		
@@ -90,7 +90,8 @@ public class GraphvizAdapter {
 		dotGraph.append("digraph "+ graphName +" { \n");
 		String connector = "->";
 		
-		dotGraph.append("size=\"36,36\";\n" +
+		dotGraph.append("label=\""+ graphName +"\"" +
+				"size=\"36,36\";\n" +
 				"node [fontname=\"Verdana\", size=\"30,30\", style=filled];\n" +
 				"overlap = scale;\n" +
 				"splines = true;\n");
@@ -116,12 +117,15 @@ public class GraphvizAdapter {
 		writeDotFile(graphName, dotGraph);
 	}
 	
-	public static void buildDotFileWithPathHighlightingAndColoredNodes(String graphName, AbstractBaseGraph<String, DefaultEdge> graph, List<String> path, Map<String, Integer> nodeColors){
+	public static void buildDotFileWithSearchResult(String graphName, SearchResult result){
+		
+		ArrayList<String> path = (ArrayList<String>) result.getPath();
+		AbstractBaseGraph<String, DefaultEdge> graph = result.getGraph();
+		Map<String, Integer> nodeLable = result.getNodeMap();
 		
 		Set<DefaultEdge> pathEdges = new HashSet<DefaultEdge>();
 		for(int i=0; i < path.size()-1; i++){
 			pathEdges.add(graph.getEdge(path.get(i), path.get(i+1)));
-			System.out.println("from "+path.get(i)+" to "+ path.get(i+1));
 		}
 		
 		int graphClass = 0;
@@ -133,15 +137,14 @@ public class GraphvizAdapter {
 		dotGraph.append("digraph "+ graphName +" { \n");
 		String connector = "->";
 		
-		dotGraph.append("size=\"36,36\";\n" +
+		dotGraph.append("label=\""+ graphName +"\"\n" +
+				"size=\"36,36\";\n" +
 //				"node [color=grey, style=filled];\n" +
 				"node [fontname=\"Verdana\", size=\"30,30\", style=filled];\n" +
 				"overlap = scale;\n" +
 				"splines = true;\n");
-		
-		for(String node : nodeColors.keySet()){
-			dotGraph.append("\""+node+"\" [ color=\""+ shadesOfGray.get(nodeColors.get(node)) +"\" ];\n");
-		}
+//		
+
 		
 		Set<DefaultEdge> edges = graph.edgeSet();
 		for (DefaultEdge e : edges) {
@@ -159,23 +162,12 @@ public class GraphvizAdapter {
 			dotGraph.append(" ];\n");
 		}
 		
+//		for(String node : nodeLable.keySet()){
+//			dotGraph.append(node+" [ label =\"" + node + " ("+ nodeLable.get(node) +") \" ];\n");
+//		}
+		
 		dotGraph.append("}");
 		
 		writeDotFile(graphName, dotGraph);
 	}
-	
-	static private List<String> shadesOfGray = new ArrayList(){{
-		add("#EFEFEF");
-		add("#E7E7E7");
-		add("#DFDFDF");
-		add("#D7D7D7");
-		add("#CFCFCF");	
-		add("#C7C7C7");
-		add("#BFBFBF");
-		add("#B7B7B7");
-		add("#AFAFAF");
-		add("#A7A7A7");
-		add("#9F9F9F");
-		add("#979797");
-	}};
 }
