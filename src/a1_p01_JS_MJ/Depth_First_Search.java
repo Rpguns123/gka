@@ -11,7 +11,6 @@ import org.jgrapht.graph.*;
 public class Depth_First_Search {
 	static int acc = 1;
 
-	public static SearchResult searchShortestPath(
 			AbstractBaseGraph<String, DefaultEdge> graph, String start,
 			String end) {
 		

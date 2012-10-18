@@ -10,7 +10,7 @@ public class Main {
 	public static void main (String args[]){
 		
 		AbstractBaseGraph<String, DefaultEdge> graph = null;
-		String graphName = "Graph2"; 
+		String graphName = "Graph1"; 
 		
 		GraphParser graphParser = new GraphParser();
 		try {
@@ -18,7 +18,10 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("DFS");
+		Depth_First_Search.searchShortestPath(graph, "a", "f");
+		System.out.println("BFS");
+		Breadth_First_Search.searchShortestPath(graph, "a", "f");
 		GraphvizAdapter gravizAdapter = new GraphvizAdapter();
 		gravizAdapter.buildDotFile(graphName, graph);
 	}
