@@ -11,8 +11,7 @@ import org.jgrapht.graph.*;
 public class Depth_First_Search {
 	static int acc = 1;
 
-			AbstractBaseGraph<String, DefaultEdge> graph, String start,
-			String end) {
+	public static SearchResult searchShortestPath(AbstractBaseGraph<String, DefaultEdge> graph, String start, String end) {
 		
 		if (!graph.containsVertex(end))
 			return new SearchResult(graph, new ArrayList<String>(), new HashMap<String, Integer>(), acc);
@@ -50,6 +49,11 @@ public class Depth_First_Search {
 						path[count - 1] = s;
 					}
 				}
+				
+			}
+			
+			for(int i=0;i<path.length;i++){
+				ret.add(path[i]);
 			}
 		}
 		return ret;

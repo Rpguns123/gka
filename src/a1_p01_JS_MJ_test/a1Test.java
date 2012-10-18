@@ -129,6 +129,9 @@ public class a1Test {
 		} catch(Exception ex){
 			fail("Could not draw Graph file.");
 		}
+		
+		System.out.println("Test Green.");
+		System.out.println("");
 	}
 	
 	@Test
