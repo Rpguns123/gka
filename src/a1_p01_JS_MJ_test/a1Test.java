@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -177,5 +178,12 @@ public class a1Test {
 		System.out.println("");
 		System.out.println("Path Length " + result.getPathLength());
 		System.out.println("Accssess Counter: " + result.getAccsessCounter());
+		
+		try {
+			GraphvizAdapter.buildDotFileWithSearchResult("K5", new SearchResult(graphk5, new ArrayList<String>(), new HashMap(), 0));
+			GraphvizAdapter.compileDotFile("K5");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
 	}
 }
