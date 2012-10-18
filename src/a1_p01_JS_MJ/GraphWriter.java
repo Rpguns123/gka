@@ -18,7 +18,8 @@ public class GraphWriter {
 	 */
 	public static boolean writeGraph(AbstractBaseGraph <String, DefaultEdge> graph, String fileName)
 	{
-		fileName.concat(".gka");
+		fileName=fileName.concat(".gka");
+		System.out.println(fileName);
 		File file = new File(fileName);
 		try {
 			if(!file.createNewFile())
@@ -48,11 +49,14 @@ public class GraphWriter {
 		StringBuilder sb = new StringBuilder();
 		for (DefaultEdge e : edges)
 		{
-			
+			sb.append("\n");
 			sb.append(graph.getEdgeSource(e));
 			sb.append(",");
 			sb.append(graph.getEdgeTarget(e));
+			
+			
 		}
+		out.write(sb.toString());
 		out.close();
 		// Erste Zeile: #gerichtet|ungerichtet
     	// Zweite Zeile: [#attributiert] | [#gewichted] | [#attributiert,gewichted]
