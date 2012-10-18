@@ -1,4 +1,5 @@
 digraph depth_first_graph2 { 
+label="depth_first_graph2"
 size="36,36";
 node [fontname="Verdana", size="30,30", style=filled];
 overlap = scale;
