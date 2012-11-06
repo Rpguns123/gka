@@ -7,6 +7,8 @@ import org.jgrapht.Graphs;
 import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.*;
 
+import a2_p01_JS_MJ.AttributedNode;
+
 public class GraphParser {
 	
 	public static AbstractBaseGraph<String, DefaultEdge> parseGraphFile(String filename) throws IOException {

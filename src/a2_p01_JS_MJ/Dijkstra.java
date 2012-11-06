@@ -1,4 +1,4 @@
-package a1_p01_JS_MJ;
+package a2_p01_JS_MJ;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,8 @@ import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
+
+import a1_p01_JS_MJ.SearchResult;
 
 
 

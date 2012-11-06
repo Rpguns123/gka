@@ -1,4 +1,4 @@
-package a1_p01_JS_MJ;
+package a2_p01_JS_MJ;
 
 
 public class AttributedNode<E extends  Comparable<E>> {
