@@ -10,7 +10,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
+import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.*;
+
+import a2_p01_JS_MJ.AttributedNode;
 
 public class GraphvizAdapter {
 
@@ -120,7 +124,7 @@ public class GraphvizAdapter {
 	public static void buildDotFileWithSearchResult(String graphName, SearchResult result){
 		
 		ArrayList<String> path = (ArrayList<String>) result.getPath();
-		AbstractBaseGraph<String, DefaultEdge> graph = result.getGraph();
+		AbstractBaseGraph<String, DefaultEdge> graph = (AbstractBaseGraph<String, DefaultEdge>) result.getGraph();
 		Map<String, Integer> nodeLable = result.getNodeMap();
 		
 		Set<DefaultEdge> pathEdges = new HashSet<DefaultEdge>();
@@ -165,6 +169,46 @@ public class GraphvizAdapter {
 //		for(String node : nodeLable.keySet()){
 //			dotGraph.append(node+" [ label =\"" + node + " ("+ nodeLable.get(node) +") \" ];\n");
 //		}
+		
+		dotGraph.append("}");
+		
+		writeDotFile(graphName, dotGraph);
+	}
+	
+	public static void buildDotFile(String graphName, WeightedGraph<AttributedNode<String>,DefaultWeightedEdge> graph){
+		
+		int graphClass = 0;
+		if( graph instanceof DirectedGraph){
+			graphClass = 1;
+		}		
+		
+		StringBuilder dotGraph = new StringBuilder(200);
+		dotGraph.append("digraph "+ graphName +" { \n");
+		String connector = "->";
+		
+		dotGraph.append("label=\""+ graphName +"\"\n" +
+				"size=\"36,36\";\n" +
+//				"node [color=grey, style=filled];\n" +
+				"node [fontname=\"Verdana\", size=\"30,30\", style=filled];\n" +
+				"overlap = scale;\n" +
+				"splines = true;\n");
+		
+		Set<DefaultWeightedEdge> edges = graph.edgeSet();
+		for (DefaultWeightedEdge e : edges) {
+			dotGraph.append( 
+					graph.getEdgeSource(e).getValue() + " " + connector + " " + graph.getEdgeTarget(e).getValue() + 
+					" [ label = \"" + graph.getEdgeWeight(e) + "\"");
+			
+			if( graphClass == 0 ){
+				dotGraph.append(", dir=none");
+			}
+			
+			dotGraph.append(" ];\n");
+		}
+		
+		for(AttributedNode<String> node : graph.vertexSet()){
+			dotGraph.append(node.getValue() +" [ label =\"" + node.getValue() + " ("+ node.getAttribute() +") \" ];\n");
+		}
 		
 		dotGraph.append("}");
 		
