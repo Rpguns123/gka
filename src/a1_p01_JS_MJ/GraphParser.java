@@ -3,6 +3,7 @@ package a1_p01_JS_MJ;
 import java.io.*;
 import java.util.Scanner;
 
+import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.*;
@@ -11,42 +12,70 @@ import a2_p01_JS_MJ.AttributedNode;
 
 public class GraphParser {
 	
-	public static AbstractBaseGraph<String, DefaultEdge> parseGraphFile(String filename) throws IOException {
+	public static Graph parseGraphFile(String filename) throws Exception {
 		File file = new File(filename);
 		Scanner scanner = new Scanner(new FileReader(file));
-	    try {
-	    	// Erste Zeile: #gerichtet|ungerichtet
-	    	// Zweite Zeile: [#attributiert] | [#gewichted] | [#attributiert,gewichted]
-	    	
-	    	// <NameKnoten1>[,<Attribut1>],<NameEcke2>[,<Attribut2>][,<Gewicht>]
-	    	
+	    try {    	
 	    	String firstLine = scanner.nextLine();
+	    	String secondLine = scanner.nextLine();
+	    	  	
+	    	int graphType = 0;
 	    	
-	    	// Hier m�sste man schauen ob es die zweite Line �berhaupt gibt und den Scanner ggf. zur�ck setzen. 
-	    	// String secondLine = scanner.nextLine();
-
-	    	// nur gerichtet
-	    	// gerichtet und gewichtet
-	    	// gerichtet und gewichtet und attributiert
-	    	
-	    	// nur ungerichtet
-	    	// ungerichtet und gewichtet
-	    	// ungerichtet und gewichtet und attributiert
-	    	
+	    	// Erste Zeile Parsen
 	    	if(firstLine.equalsIgnoreCase("#gerichtet")){
-	    		return parseDircetedGraph(scanner);
+	    		graphType += 1;
 	    		
 	    	} else if(firstLine.equalsIgnoreCase("#ungerichtet")){
-	    		return parseUndircetedGraph(scanner);
+	    		graphType += 11;
 	    		
 	    	} else {
-	    		throw new IOException("Falscher Header");
+	    		throw new IOException("Falscher Header in erster Zeile");
 	    	}
 	    	
-	      }
-	      finally {
-	        scanner.close();
-	      }
+	    	// Zweite Zeile Parsen
+	    	if(secondLine.equalsIgnoreCase("#attributiert")){
+	    		graphType += 1;
+	    		
+	    	} else if(secondLine.equalsIgnoreCase("#gewichted")){
+	    		graphType += 2;
+	    		
+	    	} else if(secondLine.equalsIgnoreCase("#attributiert,gewichted")){
+	    		graphType += 3;
+	    	}
+	    	
+	    	switch (graphType) {
+	            case 1: // nur Gerichtet
+	            	return parseDircetedGraph(scanner);
+	            	
+	            case 2: // Gerichtet und Attributiert
+	            	throw new Exception("Not yet implemented");
+	            	
+	            case 3: // Gerichtet und Gewichtet
+	            	throw new Exception("Not yet implemented");
+	            	
+	            case 4: // Gerichtet und Gewichtet und Attributiert
+	            	throw new Exception("Not yet implemented");
+	            	
+	            	
+	            case 11: // nur Ungerichtet
+	            	return parseUndircetedGraph(scanner);
+	            	
+	            case 12: // Ungerichtet und Attributiert
+	            	throw new Exception("Not yet implemented");
+	            	
+	            case 13: // Ungerichtet und Gewichtet
+	            	return parseWeightedGraph(scanner);
+	            	
+	            case 14: // Ungerichtet und Gewichtet und Attributiert
+	            	return parseWeightedAttributedGraph(scanner);
+	            	
+	            default:
+	            	throw new Exception("Falscher Header");
+	    	}
+	    	
+	    } finally {
+	    	scanner.close();
+	    }
 	}
 	
 	private static Pseudograph<String, DefaultEdge> parseUndircetedGraph(Scanner scanner){

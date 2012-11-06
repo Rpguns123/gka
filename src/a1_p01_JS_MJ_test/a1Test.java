@@ -32,10 +32,10 @@ public class a1Test {
 	public static void init() {
 		
 		try {
-			graph1 = GraphParser.parseGraphFile("Graph1.gka");
-			graph2 = GraphParser.parseGraphFile("Graph2.gka");
-			graphk5 = GraphParser.parseGraphFile("GraphK5.gka");
-		} catch(IOException ex) {
+			graph1 = (AbstractBaseGraph<String, DefaultEdge>) GraphParser.parseGraphFile("Graph1.gka");
+			graph2 = (AbstractBaseGraph<String, DefaultEdge>) GraphParser.parseGraphFile("Graph2.gka");
+			graphk5 = (AbstractBaseGraph<String, DefaultEdge>) GraphParser.parseGraphFile("GraphK5.gka");
+		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		
