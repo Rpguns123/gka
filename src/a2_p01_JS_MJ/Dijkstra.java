@@ -13,35 +13,36 @@ import a1_p01_JS_MJ.SearchResult;
 
 
 
-public class Dijkstra {
+public class Dijkstra<T extends Comparable<T>> {
 
-    public SearchResult searchShortestPath(WeightedGraph<String, DefaultWeightedEdge> graph, String start, String end) {
-        List<String> open = new ArrayList();
+    public SearchResult searchShortestPath(WeightedGraph<T, DefaultWeightedEdge> graph, T start, T end) {
+        List<T> open = new ArrayList();
+        List<String> _tmp = new ArrayList<String>();
         //TODO Map erstellen
         //Map mit Key String, Distanz int, Vorg String, ok Boolean
-        Map<String,MapEntry> closed = new HashMap<String, MapEntry>();
+        Map<T,MapEntry> closed = new HashMap<T, MapEntry>();
         //Map<String,MapEntry> tempMap = new HashMap<String, MapEntry>();
         if(!graph.containsVertex(end) || !graph.containsVertex(start))
-            return new SearchResult((Graph)graph, open, new HashMap<String, Integer>(), 0);
-        String node = start;
+            return new SearchResult((Graph)graph, _tmp, null, 0);
+        T node = start;
         MapEntry me = new MapEntry(0.0,start,true);
-        closed.put(start,null);
-
+        closed.put(start,me);
+        _tmp.add(start.toString());
         if(end.equals(start))
-            return new SearchResult((Graph)graph, open, new HashMap<String, Integer>(), 0);
+            return new SearchResult((Graph)graph, _tmp, null, 0);
 
 
         boolean unfinished = true;
-        String naechster = start, ueberNaechster = start;
+        T naechster = start, ueberNaechster = start;
 
         double min2 = Double.MAX_VALUE;
 
         while(unfinished) //Wenn wir noch abzuarbeitende
         {
-            List<String> strList = Graphs.neighborListOf(graph,node);
+            List<T> strList = Graphs.neighborListOf(graph,node);
             double minDistance= Double.MAX_VALUE;
 
-            for (String neighbor : strList)
+            for (T neighbor : strList)
             {
                 if (closed.containsKey(neighbor) && closed.get(neighbor).getOk()) continue; // DEr einfachheit halber erst einmal mit continue
                 //if (!closed.containsKey(neighbor) || !closed.get(neighbor).getOk())// Wenn der Nachbar schon ok ist. Brauchen wir ihn nicht betrachten.
@@ -71,16 +72,17 @@ public class Dijkstra {
 
         //Pfadfindung
         List<String> path = new ArrayList<String>();
-        path.add(0,end);
+        path.add(0,end.toString());
         MapEntry mapEntry=null;
         while (!mapEntry.precursor.equals(start)){
             mapEntry = closed.get(end);
-            path.add(0,mapEntry.getPrecursor());
+            path.add(0,mapEntry.getPrecursor().toString());
         }
-        path.add(0,start);
+        path.add(0,start.toString());
+//public SearchResult(Graph<T, DefaultEdge> graph, List<T> path, Map<T, Integer> map, int accesses) {
+        SearchResult result = new SearchResult((Graph)graph,path,null,0);
 
-
-        return null;
+        return result;
     }
 
 
@@ -88,10 +90,10 @@ public class Dijkstra {
 
 
     private class MapEntry {
-        private String  precursor;
+        private T  precursor;
         private double distance;
         private boolean ok;
-        public MapEntry(double distance, String precursor, boolean ok)
+        public MapEntry(double distance, T precursor, boolean ok)
         {
             this.distance = distance;
             this.precursor = precursor;
@@ -103,7 +105,7 @@ public class Dijkstra {
             this.distance = distance;
         }
 
-        public void setPrecursor( String precursor ){
+        public void setPrecursor( T precursor ){
             this.precursor=precursor;
         }
 
@@ -118,7 +120,7 @@ public class Dijkstra {
         }
 
 
-        public String getPrecursor(){
+        public T getPrecursor(){
             return precursor;
         }
         public boolean getOk()
