@@ -1,0 +1,23 @@
+Team: <Teamnummer>, Marcus Jenz, Jens Schaa
+Aufgabenaufteilung: 
+
+1. Marcus Jenz 
+Graph Writer (erweiterung)
+Graph Parser (erweiterung)
+Dijkstra
+Tests
+
+2. Jens Schaa
+A-Strern
+Graphviz Adapter (erweiterung)
+Tests
+
+Quellenangaben: 
+Wikipedia.de
+
+Bearbeitungszeitraum:
+~ 2 Tage (ca 6h)
+siehe Git repository (https://github.com/redvox/gka).
+
+Aktueller Stand: 
+

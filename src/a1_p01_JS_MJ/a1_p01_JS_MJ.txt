@@ -1,0 +1,33 @@
+Team: <Teamnummer>, Marcus Jenz, Jens Schaa
+Aufgabenaufteilung: 
+
+1. Marcus Jenz 
+Graph Writer
+Death First Search
+Tests
+
+2. Jens Schaa
+Graph Parser
+Breath First Search
+Tests
+SearchResult
+Graphviz Adapter
+
+Quellenangaben: 
+Wikipedia.de
+www.graphviz.org/
+www.vogella.com/articles/JUnit/article.html
+
+Bearbeitungszeitraum:
+~ 3 Tage (ca 6h)
+siehe Git repository (https://github.com/redvox/gka).
+
+Aktueller Stand: 
+Graph Parser
+	Ließt gerichtete und ungreichtete Graphen.
+
+Breath First und Depth First Search
+	Funktionieren.
+
+Graphviz Adapter
+	Schreibt dot files für gerichtet und ungerichtete Graphen. Suchergebnis wird rot markiert.
