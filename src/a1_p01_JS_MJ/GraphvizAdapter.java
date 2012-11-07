@@ -78,12 +78,10 @@ public class GraphvizAdapter {
 	}
 	
 	public static void buildDotFileWithPathHighlighting(String graphName, AbstractBaseGraph<String, DefaultEdge> graph, List<String> path){
-		
 		Set<DefaultEdge> pathEdges = new HashSet<DefaultEdge>();
 		for(int i=0; i < path.size()-1; i++){
 			pathEdges.add(graph.getEdge(path.get(i), path.get(i+1)));
 		}
-		
 		
 		int graphClass = 0;
 		if( graph instanceof DirectedGraph){
@@ -175,7 +173,7 @@ public class GraphvizAdapter {
 		writeDotFile(graphName, dotGraph);
 	}
 	
-	public static void buildDotFile(String graphName, WeightedGraph<AttributedNode<String>,DefaultWeightedEdge> graph){
+	public static void buildDotFile(String graphName, WeightedGraph<AttributedNode<String>,DefaultWeightedEdge> graph, List<String> path){
 		
 		int graphClass = 0;
 		if( graph instanceof DirectedGraph){
@@ -201,6 +199,9 @@ public class GraphvizAdapter {
 			
 			if( graphClass == 0 ){
 				dotGraph.append(", dir=none");
+			}
+			if(path.contains(graph.getEdgeSource(e).getValue()) && path.contains(graph.getEdgeTarget(e).getValue())){
+				dotGraph.append(", color=\"red\"");
 			}
 			
 			dotGraph.append(" ];\n");
