@@ -30,4 +30,16 @@ public class AttributedNode<E extends  Comparable<E>> {
             return true;
         return false;
     }
+
+	@Override
+	public String toString() {
+		return value +"("+attribute+")";
+	}
+
+    @Override
+	public int hashCode() {
+    	return value.hashCode();
+	}
+	
+	
 }
