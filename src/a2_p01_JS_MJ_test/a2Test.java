@@ -23,31 +23,47 @@ import a1_p01_JS_MJ.Depth_First_Search;
 import a1_p01_JS_MJ.GraphParser;
 import a1_p01_JS_MJ.GraphvizAdapter;
 import a1_p01_JS_MJ.SearchResult;
+import a2_p01_JS_MJ.AStar;
 import a2_p01_JS_MJ.AttributedNode;
 import a2_p01_JS_MJ.Dijkstra;
 
 public class a2Test {
 
 	static Graph graph3;
-	static List<String> Graph3_shortestPath;
-	 
+	static List<String> Graph3_shortestPath_Husum_Hamburg;
+	static List<String> Graph3_shortestPath_Minden_Hamburg;
+	static List<String> Graph3_shortestPath_Muenster_Hamburg;
+
 	@BeforeClass
 	public static void init() {
 		
 		try {
-			graph3 = GraphParser.parseGraphFile("Graph3.gka");
+			graph3 = GraphParser.parseGraphFile("Graph3B.gka");
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		
-		GraphvizAdapter.buildDotFile("graph3", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3);
-		GraphvizAdapter.compileDotFile("graph3");
+		Graph3_shortestPath_Muenster_Hamburg = new ArrayList<String>(){{
+			add("Muenster");
+			add("Bremen");
+			add("Hamburg");
+		}};
 		
-		Graph3_shortestPath = new ArrayList<String>(){{
-			add("a");
-			add("c");
-			add("f");
+		Graph3_shortestPath_Husum_Hamburg = new ArrayList<String>(){{
+			add("Husum");
+			add("Kiel");
+			add("Uelzen");
+			add("Rotenburg");
+			add("Soltau");
+			add("Buxtehude");
+			add("Hamburg");
+		}};
+		
+		Graph3_shortestPath_Minden_Hamburg = new ArrayList<String>(){{
+			add("Minden");
+			add("Walsrode");
+			add("Hamburg");
 		}};
 	}
 	
@@ -55,11 +71,33 @@ public class a2Test {
 	public void dijkstra_graph3_test(){
 		Dijkstra dijkstra = new Dijkstra();
 		
-		SearchResult result = dijkstra.searchShortestPath((WeightedGraph<String, DefaultWeightedEdge>) graph3, "a", "f");
-		printTestResult("Test 1: Dijkstra - Graph 3", result);
+//		SearchResult result1 = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Muenster", "Hamburg");
+//		printTestResult("Test 1: Dijkstra Muenster_Hamburg - Graph 3", result1);
+//		assertEquals(Graph3_shortestPath_Muenster_Hamburg, result1.getPath());
 		
-		assertEquals(Graph3_shortestPath, result.getPath());
-		assertEquals(4, result.getPathLength());
+//		SearchResult result2 = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Minden", "Hamburg");
+//		printTestResult("Test 1: Dijkstra Minden_Hamburg - Graph 3", result2);
+//		assertEquals(Graph3_shortestPath_Minden_Hamburg, result2.getPath());
+		
+//		SearchResult result3 = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Husum", "Hamburg");
+//		printTestResult("Test 1: Dijkstra Husum_Hamburg - Graph 3", result3);
+//		assertEquals(Graph3_shortestPath_Husum_Hamburg, result3.getPath());
+	}
+	
+	@Test
+	public void astar_graph3_test(){
+
+		SearchResult result1 = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Muenster", "Hamburg");
+		printTestResult("Test 2: A-Stern Muenster_Hamburg - Graph 3", result1);
+		assertEquals(Graph3_shortestPath_Muenster_Hamburg, result1.getPath());
+		
+		SearchResult result2 = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Minden", "Hamburg");
+		printTestResult("Test 2: A-Stern Minden_Hamburg - Graph 3", result2);
+		assertEquals(Graph3_shortestPath_Minden_Hamburg, result2.getPath());
+		
+		SearchResult result3 = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Husum", "Hamburg");
+		printTestResult("Test 2: A-Stern Husum_Hamburg - Graph 3", result3);
+		assertEquals(Graph3_shortestPath_Husum_Hamburg, result3.getPath());
 	}
 	
 	public void printTestResult(String testname, SearchResult result){
