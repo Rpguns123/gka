@@ -26,7 +26,7 @@ public class AttributedNode<E extends  Comparable<E>> {
         if (o==null) return false;
         if (!(o instanceof AttributedNode)) return false;
         AttributedNode other = (AttributedNode)o;
-        if (other.getAttribute()==this.getAttribute() && other.getValue().equals(this.getValue()))
+        if (other.getValue().equals(this.getValue()))
             return true;
         return false;
     }
