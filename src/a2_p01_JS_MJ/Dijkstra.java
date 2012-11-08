@@ -11,7 +11,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 
 import a1_p01_JS_MJ.SearchResult;
 
-public class Dijkstra/* <T extends Comparable<T>> */{
+public class Dijkstra{
 
 	public SearchResult searchShortestPath(
 			WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> graph,
@@ -23,9 +23,7 @@ public class Dijkstra/* <T extends Comparable<T>> */{
 		AttributedNode<String> end = new AttributedNode<String>(endingNode, 0);
 
 		Map<AttributedNode<String>, MapEntry> closed = new HashMap<AttributedNode<String>, MapEntry>();
-		// Map<String,MapEntry> tempMap = new HashMap<String, MapEntry>();
-
-		if (!graph.containsVertex(start))
+				if (!graph.containsVertex(start))
 			return new SearchResult((Graph) graph, _tmp, null, 0);
 
 		if (!graph.containsVertex(end))

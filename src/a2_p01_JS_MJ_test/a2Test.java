@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
+
 import org.jgrapht.Graph;
 import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.AbstractBaseGraph;
@@ -68,36 +70,107 @@ public class a2Test {
 	}
 	
 	@Test
-	public void dijkstra_graph3_test(){
+	public void dijkstra_graph3_test1(){
 		Dijkstra dijkstra = new Dijkstra();
 		
-//		SearchResult result1 = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Muenster", "Hamburg");
-//		printTestResult("Test 1: Dijkstra Muenster_Hamburg - Graph 3", result1);
-//		assertEquals(Graph3_shortestPath_Muenster_Hamburg, result1.getPath());
+		SearchResult result = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Muenster", "Hamburg");
+		printTestResult("Test 1: Dijkstra Muenster_Hamburg - Graph 3", result);
+		assertEquals(Graph3_shortestPath_Muenster_Hamburg, result.getPath());
 		
-//		SearchResult result2 = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Minden", "Hamburg");
-//		printTestResult("Test 1: Dijkstra Minden_Hamburg - Graph 3", result2);
-//		assertEquals(Graph3_shortestPath_Minden_Hamburg, result2.getPath());
-		
-//		SearchResult result3 = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Husum", "Hamburg");
-//		printTestResult("Test 1: Dijkstra Husum_Hamburg - Graph 3", result3);
-//		assertEquals(Graph3_shortestPath_Husum_Hamburg, result3.getPath());
+		try {
+			GraphvizAdapter.buildDotFile("Dijkstra_Muenster_Hamburg", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("Dijkstra_Muenster_Hamburg");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+
 	}
 	
 	@Test
-	public void astar_graph3_test(){
+	public void dijkstra_graph3_test2(){
+		Dijkstra dijkstra = new Dijkstra();
+			
+		SearchResult result = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Minden", "Hamburg");
+		printTestResult("Test 1: Dijkstra Minden_Hamburg - Graph 3", result);
+		assertEquals(Graph3_shortestPath_Minden_Hamburg, result.getPath());
+		
+		try {
+			GraphvizAdapter.buildDotFile("Dijkstra_Minden_Hamburg", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("Dijkstra_Minden_Hamburg");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
 
-		SearchResult result1 = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Muenster", "Hamburg");
-		printTestResult("Test 2: A-Stern Muenster_Hamburg - Graph 3", result1);
-		assertEquals(Graph3_shortestPath_Muenster_Hamburg, result1.getPath());
+	}
+	
+	@Test
+	public void dijkstra_graph3_test3(){
+		Dijkstra dijkstra = new Dijkstra();
+
+		SearchResult result = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Husum", "Hamburg");
+		printTestResult("Test 1: Dijkstra Husum_Hamburg - Graph 3", result);
+		assertEquals(Graph3_shortestPath_Husum_Hamburg, result.getPath());
 		
-		SearchResult result2 = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Minden", "Hamburg");
-		printTestResult("Test 2: A-Stern Minden_Hamburg - Graph 3", result2);
-		assertEquals(Graph3_shortestPath_Minden_Hamburg, result2.getPath());
+		try {
+			GraphvizAdapter.buildDotFile("Dijkstra_Husum_Hamburg", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("Dijkstra_Husum_Hamburg");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	@Test
+	public void astar_graph3_test1(){
+		SearchResult result = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Muenster", "Hamburg");
+		printTestResult("Test 2: A-Stern Muenster_Hamburg - Graph 3", result);
+		assertEquals(Graph3_shortestPath_Muenster_Hamburg, result.getPath());
 		
-		SearchResult result3 = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Husum", "Hamburg");
-		printTestResult("Test 2: A-Stern Husum_Hamburg - Graph 3", result3);
-		assertEquals(Graph3_shortestPath_Husum_Hamburg, result3.getPath());
+		try {
+			GraphvizAdapter.buildDotFile("A_Stern_Muenster_Hamburg", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("A_Stern_Muenster_Hamburg");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	@Test
+	public void astar_graph3_test2(){
+		SearchResult result = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Minden", "Hamburg");
+		printTestResult("Test 2: A-Stern Minden_Hamburg - Graph 3", result);
+		assertEquals(Graph3_shortestPath_Minden_Hamburg, result.getPath());
+		
+		try {
+			GraphvizAdapter.buildDotFile("A_Stern_Minden_Hamburg", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("A_Stern_Minden_Hamburg");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	@Test
+	public void astar_graph3_test3(){	
+		SearchResult result = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph3, "Husum", "Hamburg");
+		printTestResult("Test 2: A-Stern Husum_Hamburg - Graph 3", result);
+		assertEquals(Graph3_shortestPath_Husum_Hamburg, result.getPath());
+		
+		try {
+			GraphvizAdapter.buildDotFile("A_Stern_Husum_Hamburg", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("A_Stern_Husum_Hamburg");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
 	}
 	
 	public void printTestResult(String testname, SearchResult result){
