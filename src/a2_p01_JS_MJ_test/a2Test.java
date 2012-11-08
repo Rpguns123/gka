@@ -28,6 +28,7 @@ import a1_p01_JS_MJ.SearchResult;
 import a2_p01_JS_MJ.AStar;
 import a2_p01_JS_MJ.AttributedNode;
 import a2_p01_JS_MJ.Dijkstra;
+import a2_p01_JS_MJ.GraphGenerator;
 
 public class a2Test {
 
@@ -41,7 +42,6 @@ public class a2Test {
 		
 		try {
 			graph3 = GraphParser.parseGraphFile("Graph3B.gka");
-			
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -172,6 +172,32 @@ public class a2Test {
 		System.out.println("Test Green.");
 		System.out.println("");
 	}
+	
+	@Test
+	public void graphN_test(){	
+		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> graph = GraphGenerator.generateAttributedWeightedGraph(20);
+		Dijkstra dijkstra = new Dijkstra();
+		
+		SearchResult resultD = dijkstra.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph, "19", "target");
+		SearchResult resultA = AStar.searchShortestPath((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph, "19", "target");
+		
+		printTestResult("Test 3: A-Stern Graph N", resultA);
+		printTestResult("Test 3: Dijkstra Graph N", resultD);
+		assertEquals(resultA.getPath(), resultD.getPath());
+		
+		try {
+			GraphvizAdapter.buildDotFile("graphN", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) graph, resultD.getPath());
+			GraphvizAdapter.compileDotFile("graphN");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	
+	
+	
 	
 	public void printTestResult(String testname, SearchResult result){
 		System.out.println(testname);
