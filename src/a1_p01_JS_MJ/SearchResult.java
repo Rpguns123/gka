@@ -8,19 +8,19 @@ import org.jgrapht.graph.DefaultEdge;
 
 public class SearchResult {
 
-	private Graph<String, DefaultEdge> graph;
+	private Graph graph;
 	private List<String> path;
 	private Map<String, Integer> map;
 	private int acceses;
 	
-	public SearchResult(Graph<String, DefaultEdge> graph, List<String> path, Map<String, Integer> map, int accesses) {
+	public SearchResult(Graph graph, List<String> path, Map<String, Integer> map, int accesses) {
 		this.graph = graph;
 		this.path = path;
 		this.map = map;
 		this.acceses = accesses;
 	}
 	
-	public Graph<String, DefaultEdge> getGraph(){
+	public Graph getGraph(){
 		return graph;
 	}
 
