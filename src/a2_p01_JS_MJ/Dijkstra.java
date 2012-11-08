@@ -16,6 +16,8 @@ public class Dijkstra{
 	public SearchResult searchShortestPath(
 			WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> graph,
 			String startingNode, String endingNode) {
+		int acc = 1;
+		
 		List<AttributedNode<String>> open = new ArrayList();
 		List<String> _tmp = new ArrayList<String>();
 		AttributedNode<String> start = new AttributedNode<String>(startingNode,
@@ -57,6 +59,7 @@ public class Dijkstra{
 																		// ermitteln
 																		// die
 																		// Distanz
+				acc++;
 				if (!closed.containsKey(neighbor)
 						|| (closed.get(neighbor).getDistance() > distance)) {
 					closed.put(neighbor, new MapEntry(distance, node, false));
@@ -95,7 +98,7 @@ public class Dijkstra{
 															// holen.
 		}
 		path.add(0, start.getValue());
-		SearchResult result = new SearchResult((Graph) graph, path, null, 0);
+		SearchResult result = new SearchResult((Graph) graph, path, null, acc);
 
 		return result;
 	}
