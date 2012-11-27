@@ -27,11 +27,13 @@ public class Kruskal {
 			} else {
 				double w = graph.getEdgeWeight(e);
 				boolean b = false;
+				boolean b = true;
 				for(int i=0; i<weight.size();i++){
 					if(w < weight.get(i)){
 						edges.add(i, e);
 						weight.add(i, w);
 						b = true;
+						b = false;
 						break;						
 					}
 				}
