@@ -36,12 +36,16 @@ public class GraphParser {
 	    	if(secondLine.equalsIgnoreCase("#attributiert")){
 	    		graphType += 1;
 	    		
-	    	} else if(secondLine.equalsIgnoreCase("#gewichted")){
+	    	} else if(secondLine.equalsIgnoreCase("#gewichtet")){
 	    		graphType += 2;
 	    		
 	    	} else if(secondLine.equalsIgnoreCase("#attributiert,gewichted")){
 	    		graphType += 3;
 	    	}
+	    	
+	    	System.out.println(firstLine);
+	    	System.out.println(secondLine);
+	    	System.out.println(graphType);
 	    	
 	    	switch (graphType) {
 	            case 1: // nur Gerichtet
@@ -115,8 +119,8 @@ public class GraphParser {
         while(scanner.hasNextLine())
         {
             line = splitLine(scanner.nextLine());
-            Graphs.addEdgeWithVertices(graph,line[0],line[2]);
-            graph.setEdgeWeight(graph.getEdge(line[0],line[2]),Double.parseDouble(line[4]));
+            Graphs.addEdgeWithVertices(graph,line[0],line[1]);
+            graph.setEdgeWeight(graph.getEdge(line[0],line[1]),Double.parseDouble(line[2]));
         }
         return graph;
     }
