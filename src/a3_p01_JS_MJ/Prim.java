@@ -12,6 +12,8 @@ import org.jgrapht.Graphs;
 import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedPseudograph;
+import org.jgrapht.util.FibonacciHeap;
+import org.jgrapht.util.FibonacciHeapNode;
 
 import a2_p01_JS_MJ.AttributedNode;
 
@@ -24,6 +26,7 @@ public class Prim<T extends Comparable<T>> {
 		Set<T> nodeSet =new HashSet<T>(graph.vertexSet());
 		Iterator<T> it = nodeSet.iterator();
 		T sourceNode = it.next();
+		nodeSet.remove(sourceNode);
 		WeightedGraph<T,DefaultWeightedEdge> newGraph = new WeightedPseudograph<T, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 		newGraph.addVertex(sourceNode);
 		
@@ -32,33 +35,28 @@ public class Prim<T extends Comparable<T>> {
 		List<T> neigh; 
 		List<DefaultWeightedEdge> l = new ArrayList<DefaultWeightedEdge>();
 		PriorityQueue<QueueEntry<T>> prioQueue = new PriorityQueue<QueueEntry<T>>();
-		/* Die Anzahl der Knoten prüfen, und für jeden Knoten einen Zähler um eins hochzählen
-		 * Dann stoppen wenn die Zähler = Anzahl Knoten
-		 * --> For Schleife.
-		 */		
-		//for (int count =  1; count < nodeCount;)
+
 		while(!nodeSet.isEmpty())
 		{
-			neigh = Graphs.neighborListOf(graph, sourceNode);
-			neigh.retainAll(nodeSet);//Wir benutzen nur die Knoten die noch nciht im Baum drin sind.
-			//Also die Schnittmenge der Nachbarn udn der noch nicht vorhandenen Knoten.
-			
+			neigh = Graphs.neighborListOf(graph, sourceNode);//Wir benutzen nur die Knoten die noch nciht im Baum drin sind.
+			neigh.retainAll(nodeSet);//Also die Schnittmenge der Nachbarn udn der noch nicht vorhandenen Knoten.						
 			for (T node : neigh)//Alle Kanten suchen die von uns abgehen.
 			{
 				prioQueue.add(getQueueEntry(graph.getAllEdges(sourceNode, node),graph));//Falls wir PArallelen haben muessen wuir alle Edges hinzufuegen.
 			}
 			QueueEntry<T> q = prioQueue.poll();
+	
 			newGraph.addVertex(q.getTargetNode());
 			newGraph.addVertex(q.getSourceNode());
-			newGraph.addEdge(q.getSourceNode(), q.getTargetNode(), q.getEdge());		
+			newGraph.addEdge(q.getSourceNode(), q.getTargetNode(), q.getEdge());	
 			//Graphs.addEdgeWithVertices(newGraph, graph, q.getEdge());
 			if(Util.checkForCircles(newGraph))
 			{
-				newGraph.removeEdge(q.getEdge());
+			newGraph.removeEdge(q.getEdge());
 			}else {
-				//count++;
-				nodeSet.remove(q.getTargetNode());
-				graph.setEdgeWeight(q.getEdge(), q.getWeight());
+			//count++;
+			nodeSet.remove(q.getTargetNode());
+			graph.setEdgeWeight(q.getEdge(), q.getWeight());
 			}
 			sourceNode=q.getTargetNode();
 		}
@@ -81,6 +79,54 @@ public class Prim<T extends Comparable<T>> {
 		return new QueueEntry<T>(edge,g.getEdgeSource(edge), g.getEdgeTarget(edge), weight);
 	}
 
+	public WeightedGraph<T,DefaultWeightedEdge> algorithmWithFibo(WeightedGraph<T, DefaultWeightedEdge> graph)
+	{
+		
+		Set<T> nodeSet =new HashSet<T>(graph.vertexSet());
+		Iterator<T> it = nodeSet.iterator();
+		
+		T sourceNode = it.next();
+		nodeSet.remove(sourceNode);
+		WeightedGraph<T,DefaultWeightedEdge> newGraph = new WeightedPseudograph<T, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+		newGraph.addVertex(sourceNode);
+		
+		int nodeCount = nodeSet.size();
+		
+		List<T> neigh; 
+		List<DefaultWeightedEdge> l = new ArrayList<DefaultWeightedEdge>();
+		FibonacciHeap<QueueEntry<T>> heap = new FibonacciHeap<QueueEntry<T>>();
+//		PriorityQueue<QueueEntry<T>> prioQueue = new PriorityQueue<QueueEntry<T>>();
+
+		while(!nodeSet.isEmpty())
+		{
+			neigh = Graphs.neighborListOf(graph, sourceNode);//Wir benutzen nur die Knoten die noch nciht im Baum drin sind.
+			neigh.retainAll(nodeSet);//Also die Schnittmenge der Nachbarn udn der noch nicht vorhandenen Knoten.						
+			for (T node : neigh)//Alle Kanten suchen die von uns abgehen.
+			{
+				QueueEntry<T> q = getQueueEntry(graph.getAllEdges(sourceNode, node),graph);
+//				prioQueue.add(q);//Falls wir PArallelen haben muessen wuir alle Edges hinzufuegen.
+				heap.insert(new FibonacciHeapNode<QueueEntry<T>>(q), q.getWeight());
+			}
+//			QueueEntry<T> q = prioQueue.poll();
+			QueueEntry<T> q=heap.removeMin().getData();
+	
+			newGraph.addVertex(q.getTargetNode());
+			newGraph.addVertex(q.getSourceNode());
+			newGraph.addEdge(q.getSourceNode(), q.getTargetNode(), q.getEdge());	
+			//Graphs.addEdgeWithVertices(newGraph, graph, q.getEdge());
+			if(Util.checkForCircles(newGraph))
+			{
+			newGraph.removeEdge(q.getEdge());
+			}else {
+			//count++;
+			nodeSet.remove(q.getTargetNode());
+			graph.setEdgeWeight(q.getEdge(), q.getWeight());
+			}
+			sourceNode=q.getTargetNode();
+		}
+		return newGraph;
+	}	
+	
 }
 
 class QueueEntry<T extends Comparable<T>> implements Comparable<QueueEntry>{
@@ -95,7 +141,7 @@ class QueueEntry<T extends Comparable<T>> implements Comparable<QueueEntry>{
 		this.weight = weight;
 	}
 
-	public T getSourceNode() {
+	 T getSourceNode() {
 		return sourceNode;
 	}
 
