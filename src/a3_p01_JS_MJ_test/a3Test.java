@@ -2,13 +2,79 @@ package a3_p01_JS_MJ_test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jgrapht.Graph;
+import org.jgrapht.WeightedGraph;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import a1_p01_JS_MJ.GraphParser;
+import a1_p01_JS_MJ.GraphvizAdapter;
+import a1_p01_JS_MJ.SearchResult;
+import a2_p01_JS_MJ.AttributedNode;
+import a2_p01_JS_MJ.Dijkstra;
+import a3_p01_JS_MJ.Kruskal;
 
 public class a3Test {
 
+	static Graph graph4;
+	static List<DefaultWeightedEdge> graph4_spanningTree;
+	
+	@BeforeClass
+	public static void init() {
+		
+		try {
+			graph4 = GraphParser.parseGraphFile("Graph4.gka");
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		graph4_spanningTree = new ArrayList<DefaultWeightedEdge>(){{
+			add((DefaultWeightedEdge) graph4.getEdge("a", "c")); //3
+			add((DefaultWeightedEdge) graph4.getEdge("a", "b")); //2
+			add((DefaultWeightedEdge) graph4.getEdge("h", "b")); //1
+			add((DefaultWeightedEdge) graph4.getEdge("e", "b")); //2
+			add((DefaultWeightedEdge) graph4.getEdge("i", "c")); //4
+			add((DefaultWeightedEdge) graph4.getEdge("k", "c")); //3
+			add((DefaultWeightedEdge) graph4.getEdge("b", "j")); //4
+			add((DefaultWeightedEdge) graph4.getEdge("g", "d")); //4
+			add((DefaultWeightedEdge) graph4.getEdge("g", "e")); //2
+			add((DefaultWeightedEdge) graph4.getEdge("e", "f")); //2
+		}};
+	}
+	
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void kruskal_graph4_test(){
+		@SuppressWarnings("unchecked")
+		SearchResult result = Kruskal.searchSpanningTree((WeightedGraph<String, DefaultWeightedEdge>) graph4);
+		printTestResult("Test 1: Kruskal - Graph 4", result);
+		
+		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) result.getPath()){
+//			assertTrue(graph4_spanningTree.contains(s));
+		}
+		
+		try {
+			GraphvizAdapter.buildDotFile2("Kruskal_Graph4", (WeightedGraph<String, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("Kruskal_Graph4");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	public void printTestResult(String testname, SearchResult result){
+		System.out.println(testname);
+		System.out.print("Path: ");
+		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) result.getPath()){
+			System.out.print(s+ ", ");
+		}
+		System.out.println("");
+		System.out.println("Path Length " + result.getPathLength());
+		System.out.println("Accssess Counter: " + result.getAccsessCounter());
 	}
 
 }
