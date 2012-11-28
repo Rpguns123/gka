@@ -67,10 +67,16 @@ public class a3Test {
 	}
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void prim_graph4_test(){
 		Prim<String> prim= new Prim();
 		WeightedGraph<String, DefaultWeightedEdge> g = prim.algorithm((WeightedGraph<String, DefaultWeightedEdge>)graph4);
+		WeightedGraph<String, DefaultWeightedEdge> g2 = prim.algorithmWithFibo((WeightedGraph<String, DefaultWeightedEdge>)graph4);
+		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));
+//		System.out.println("graph4_spanningTree: "+ graph4_spanningTree);
+//		System.out.println("prim: "+g.edgeSet());
+//		assertTrue(g.edgeSet().containsAll(graph4_spanningTree));//TODO Edges sind teilweise in unterschiedlicher Form: A:C anstatt C:A
 		System.out.println("Foo");
 	}
 	

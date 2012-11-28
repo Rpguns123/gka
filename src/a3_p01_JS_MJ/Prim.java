@@ -15,10 +15,11 @@ import org.jgrapht.graph.WeightedPseudograph;
 import org.jgrapht.util.FibonacciHeap;
 import org.jgrapht.util.FibonacciHeapNode;
 
+import a1_p01_JS_MJ.SearchResult;
 import a2_p01_JS_MJ.AttributedNode;
 
 public class Prim<T extends Comparable<T>> {
-	
+	int acc = 0;
 	
 	public WeightedGraph<T,DefaultWeightedEdge> algorithm(WeightedGraph<T, DefaultWeightedEdge> graph)
 	{
@@ -60,6 +61,7 @@ public class Prim<T extends Comparable<T>> {
 			}
 			sourceNode=q.getTargetNode();
 		}
+		SearchResult s = new SearchResult(newGraph, new ArrayList<DefaultWeightedEdge>(newGraph.edgeSet()), null, acc);
 		return newGraph;
 	}
 	
@@ -86,7 +88,8 @@ public class Prim<T extends Comparable<T>> {
 		Iterator<T> it = nodeSet.iterator();
 		
 		T sourceNode = it.next();
-		nodeSet.remove(sourceNode);
+		nodeSet.remove(sourceNode); 
+		acc++;
 		WeightedGraph<T,DefaultWeightedEdge> newGraph = new WeightedPseudograph<T, DefaultWeightedEdge>(DefaultWeightedEdge.class);
 		newGraph.addVertex(sourceNode);
 		
@@ -104,12 +107,13 @@ public class Prim<T extends Comparable<T>> {
 			for (T node : neigh)//Alle Kanten suchen die von uns abgehen.
 			{
 				QueueEntry<T> q = getQueueEntry(graph.getAllEdges(sourceNode, node),graph);
+				acc++;
 //				prioQueue.add(q);//Falls wir PArallelen haben muessen wuir alle Edges hinzufuegen.
 				heap.insert(new FibonacciHeapNode<QueueEntry<T>>(q), q.getWeight());
 			}
 //			QueueEntry<T> q = prioQueue.poll();
 			QueueEntry<T> q=heap.removeMin().getData();
-	
+			acc++;
 			newGraph.addVertex(q.getTargetNode());
 			newGraph.addVertex(q.getSourceNode());
 			newGraph.addEdge(q.getSourceNode(), q.getTargetNode(), q.getEdge());	
@@ -124,6 +128,7 @@ public class Prim<T extends Comparable<T>> {
 			}
 			sourceNode=q.getTargetNode();
 		}
+		//SearchResult s = new SearchResult(newGraph, new ArrayList<DefaultWeightedEdge>(newGraph.edgeSet()), null, acc);
 		return newGraph;
 	}	
 	
