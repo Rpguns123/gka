@@ -172,7 +172,7 @@ public class a1Test {
 	public void printTestResult(String testname, SearchResult result){
 		System.out.println(testname);
 		System.out.print("Path: ");
-		for(String s : result.getPath()){
+		for(String s : (ArrayList<String>) result.getPath()){
 			System.out.print(s+ ", ");
 		}
 		System.out.println("");

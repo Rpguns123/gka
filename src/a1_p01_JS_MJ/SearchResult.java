@@ -9,11 +9,11 @@ import org.jgrapht.graph.DefaultEdge;
 public class SearchResult {
 
 	private Graph graph;
-	private List<String> path;
+	private List path;
 	private Map<String, Integer> map;
 	private int acceses;
 	
-	public SearchResult(Graph graph, List<String> path, Map<String, Integer> map, int accesses) {
+	public SearchResult(Graph graph, List path, Map<String, Integer> map, int accesses) {
 		this.graph = graph;
 		this.path = path;
 		this.map = map;
@@ -28,7 +28,7 @@ public class SearchResult {
 		return path.size()-1;
 	}
 	
-	public List<String> getPath(){
+	public List getPath(){
 		return path;
 	}
 	
