@@ -17,6 +17,7 @@ import a1_p01_JS_MJ.SearchResult;
 import a2_p01_JS_MJ.AttributedNode;
 import a2_p01_JS_MJ.Dijkstra;
 import a3_p01_JS_MJ.Kruskal;
+import a3_p01_JS_MJ.Prim;
 
 public class a3Test {
 
@@ -24,8 +25,7 @@ public class a3Test {
 	static List<DefaultWeightedEdge> graph4_spanningTree;
 	
 	@BeforeClass
-	public static void init() {
-		
+	public static void init() {		
 		try {
 			graph4 = GraphParser.parseGraphFile("Graph4.gka");
 		} catch(Exception ex) {
@@ -64,6 +64,14 @@ public class a3Test {
 		}
 		System.out.println("Test Green.");
 		System.out.println("");
+	}
+	
+	
+	@Test
+	public void prim_graph4_test(){
+		Prim<String> prim= new Prim();
+		WeightedGraph<String, DefaultWeightedEdge> g = prim.algorithm((WeightedGraph<String, DefaultWeightedEdge>)graph4);
+		System.out.println("Foo");
 	}
 	
 	public void printTestResult(String testname, SearchResult result){

@@ -4,9 +4,9 @@ import org.jgrapht.Graph;
 
 public class Util {
 
-	public static boolean checkForCircles(Graph g)
+	public static boolean checkForCircles(Graph<?,?> g)
 	{
-		return true;
+		return (g.vertexSet().size()==(g.edgeSet().size()+1));
 	}
 	
 }
