@@ -53,6 +53,7 @@ public class Kruskal {
 		}
 		
 		Set<String> pathVertexes = new HashSet<String>();
+		List<DefaultWeightedEdge> path = new ArrayList<DefaultWeightedEdge>();
 		for(DefaultWeightedEdge e : edges){
 			accesses++;
 			String source = graph.getEdgeSource(e); 
@@ -61,6 +62,7 @@ public class Kruskal {
 			if(komponents.get(source) != komponents.get(target)){
 				pathVertexes.add(source);
 				pathVertexes.add(target);
+				path.add(e);
 				
 				int idS = komponents.get(source);
 				int idT = komponents.get(target);
