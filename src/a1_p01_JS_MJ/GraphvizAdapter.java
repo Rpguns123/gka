@@ -215,4 +215,43 @@ public class GraphvizAdapter {
 		
 		writeDotFile(graphName, dotGraph);
 	}
+	
+	public static void buildDotFile2(String graphName, WeightedGraph<String ,DefaultWeightedEdge> graph, List<DefaultWeightedEdge> path){
+		
+		int graphClass = 0;
+		if( graph instanceof DirectedGraph){
+			graphClass = 1;
+		}		
+		
+		StringBuilder dotGraph = new StringBuilder(200);
+		dotGraph.append("digraph "+ graphName +" { \n");
+		String connector = "->";
+		
+		dotGraph.append("label=\""+ graphName +"\"\n" +
+				"size=\"36,36\";\n" +
+//				"node [color=grey, style=filled];\n" +
+				"node [fontname=\"Verdana\", size=\"30,30\", style=filled];\n" +
+				"overlap = scale;\n" +
+				"splines = true;\n");
+		
+		Set<DefaultWeightedEdge> edges = graph.edgeSet();
+		for (DefaultWeightedEdge e : edges) {
+			dotGraph.append( 
+					graph.getEdgeSource(e) + " " + connector + " " + graph.getEdgeTarget(e) + 
+					" [ label = \"" + graph.getEdgeWeight(e) + "\"");
+			
+			if( graphClass == 0 ){
+				dotGraph.append(", dir=none");
+			}
+			if(path.contains(e)){
+				dotGraph.append(", color=\"red\"");
+			}
+			
+			dotGraph.append(" ];\n");
+		}
+		
+		dotGraph.append("}");
+		
+		writeDotFile(graphName, dotGraph);
+	}
 }
