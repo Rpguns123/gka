@@ -1,6 +1,7 @@
 package a3_p01_JS_MJ;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -19,7 +20,8 @@ public class Prim<T extends Comparable<T>> {
 	
 	public WeightedGraph<T,DefaultWeightedEdge> algorithm(WeightedGraph<T, DefaultWeightedEdge> graph)
 	{
-		Set<T> nodeSet = graph.vertexSet();		
+		
+		Set<T> nodeSet =new HashSet<T>(graph.vertexSet());
 		Iterator<T> it = nodeSet.iterator();
 		T sourceNode = it.next();
 		WeightedGraph<T,DefaultWeightedEdge> newGraph = new WeightedPseudograph<T, DefaultWeightedEdge>(DefaultWeightedEdge.class);
@@ -34,7 +36,8 @@ public class Prim<T extends Comparable<T>> {
 		 * Dann stoppen wenn die Zähler = Anzahl Knoten
 		 * --> For Schleife.
 		 */		
-		for (int count =  1; count < nodeCount;)
+		//for (int count =  1; count < nodeCount;)
+		while(!nodeSet.isEmpty())
 		{
 			neigh = Graphs.neighborListOf(graph, sourceNode);
 			neigh.retainAll(nodeSet);//Wir benutzen nur die Knoten die noch nciht im Baum drin sind.
@@ -46,13 +49,14 @@ public class Prim<T extends Comparable<T>> {
 			}
 			QueueEntry<T> q = prioQueue.poll();
 			newGraph.addVertex(q.getTargetNode());
+			newGraph.addVertex(q.getSourceNode());
 			newGraph.addEdge(q.getSourceNode(), q.getTargetNode(), q.getEdge());		
 			//Graphs.addEdgeWithVertices(newGraph, graph, q.getEdge());
 			if(Util.checkForCircles(newGraph))
 			{
 				newGraph.removeEdge(q.getEdge());
 			}else {
-				count++;
+				//count++;
 				nodeSet.remove(q.getTargetNode());
 				graph.setEdgeWeight(q.getEdge(), q.getWeight());
 			}
@@ -85,9 +89,9 @@ class QueueEntry<T extends Comparable<T>> implements Comparable<QueueEntry>{
 	private double weight;
 	QueueEntry(DefaultWeightedEdge e,T sourceNode, T targetNode, double weight)
 	{
-		this.sourceNode = sourceNode;
+		this.sourceNode = targetNode;
 		this.edge = e;
-		this.targetNode = targetNode;
+		this.targetNode =sourceNode ;
 		this.weight = weight;
 	}
 
@@ -113,6 +117,11 @@ class QueueEntry<T extends Comparable<T>> implements Comparable<QueueEntry>{
 	double getWeight()
 	{
 		return weight;
+	}
+	
+	public String toString()
+	{
+		return "("+sourceNode.toString()+","+targetNode.toString()+","+weight+") "+ edge.toString();
 	}
 	
 }
