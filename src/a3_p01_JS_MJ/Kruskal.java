@@ -13,16 +13,16 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 
 import a1_p01_JS_MJ.SearchResult;
 
-public class Kruskal {
+public class Kruskal<T> {
 
-	public static SearchResult searchSpanningTree(WeightedGraph<String, DefaultWeightedEdge> graph){
+	public SearchResult searchSpanningTree(WeightedGraph<T, DefaultWeightedEdge> graph){
 		int accesses=0;
 		Set<DefaultWeightedEdge> edgeSet = graph.edgeSet();
 		ArrayList<DefaultWeightedEdge> edges = new ArrayList<DefaultWeightedEdge>(edgeSet.size());
 		ArrayList<Double> weight = new ArrayList<Double>(edgeSet.size());
 		for(DefaultWeightedEdge e : edgeSet){
 			
-			System.out.println("Test1: "+ e +" ("+graph.getEdgeWeight(e)+"), ");
+			//System.out.println("Test1: "+ e +" ("+graph.getEdgeWeight(e)+"), ");
 
 			accesses++;
 			if(edges.isEmpty()){
@@ -47,10 +47,10 @@ public class Kruskal {
 		}
 		System.out.println();
 		
-		Set<String> vertexSet = graph.vertexSet();
-		Map<String, Integer> komponents = new HashMap<String, Integer>();
+		Set<T> vertexSet = graph.vertexSet();
+		Map<T, Integer> komponents = new HashMap<T, Integer>();
 		int komponentId = 1;
-		for(String s : vertexSet){
+		for(T s : vertexSet){
 			komponents.put(s, komponentId);
 			komponentId++;
 		}
@@ -58,8 +58,8 @@ public class Kruskal {
 		List<DefaultWeightedEdge> path = new ArrayList<DefaultWeightedEdge>();
 		for(DefaultWeightedEdge e : edges){
 			accesses++;
-			String source = graph.getEdgeSource(e); 
-			String target = graph.getEdgeTarget(e);
+			T source = graph.getEdgeSource(e); 
+			T target = graph.getEdgeTarget(e);
 			
 			if(komponents.get(source) != komponents.get(target)){
 				path.add(e);
@@ -67,7 +67,7 @@ public class Kruskal {
 				int idS = komponents.get(source);
 				int idT = komponents.get(target);
 				
-				for(Entry<String, Integer> entry : komponents.entrySet()){
+				for(Entry<T, Integer> entry : komponents.entrySet()){
 					if(entry.getValue() == idT){
 						komponents.put(entry.getKey(), idS);
 					}
