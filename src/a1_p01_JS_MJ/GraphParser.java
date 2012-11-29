@@ -43,10 +43,6 @@ public class GraphParser {
 	    		graphType += 3;
 	    	}
 	    	
-	    	System.out.println(firstLine);
-	    	System.out.println(secondLine);
-	    	System.out.println(graphType);
-	    	
 	    	switch (graphType) {
 	            case 1: // nur Gerichtet
 	            	return parseDircetedGraph(scanner);
@@ -121,6 +117,7 @@ public class GraphParser {
             line = splitLine(scanner.nextLine());
             Graphs.addEdgeWithVertices(graph,line[0],line[1]);
             graph.setEdgeWeight(graph.getEdge(line[0],line[1]),Double.parseDouble(line[2]));
+//            System.out.println("Putting "+ line[0]+":"+line[1]+" ("+Double.parseDouble(line[2])+")");
         }
         return graph;
     }
