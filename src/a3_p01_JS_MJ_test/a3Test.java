@@ -34,7 +34,7 @@ public class a3Test {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		genGraph = GraphGenerator.generateAttributedWeightedGraph(200, 40);
+		genGraph = GraphGenerator.generateAttributedWeightedGraph(150, 30);
 		graph4_spanningTree = new ArrayList<DefaultWeightedEdge>(){{
 			add((DefaultWeightedEdge) graph4.getEdge("c", "a")); //3
 			add((DefaultWeightedEdge) graph4.getEdge("a", "b")); //2
@@ -63,7 +63,6 @@ public class a3Test {
 		System.out.println();
 		
 		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) result.getPath()){
-			System.out.println("Test THIS: "+ s +" ("+graph4.getEdgeWeight(s)+"), ");
 			assertTrue(graph4_spanningTree.contains(s));
 		}
 		
@@ -95,8 +94,8 @@ public class a3Test {
 		assertArrayEquals("Yeag", a, b, 1.0);
 		
 		try {
-			GraphvizAdapter.buildDotFile2("Kruskal_Graph4", (WeightedGraph<String, DefaultWeightedEdge>) result.getGraph(), result.getPath());
-			GraphvizAdapter.compileDotFile("Kruskal_Graph4");
+			GraphvizAdapter.buildDotFile2("Kruskal_Graph5", (WeightedGraph<String, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+			GraphvizAdapter.compileDotFile("Kruskal_Graph5");
 		} catch(Exception ex){
 			fail("Could not draw Graph file.");
 		}
@@ -104,29 +103,19 @@ public class a3Test {
 		System.out.println("");
 	}
 	
-	
 	@SuppressWarnings("unchecked")
 	@Test
 	public void prim_graph4_test(){
 		Prim<String> prim= new Prim<String>();
-		WeightedGraph<String, DefaultWeightedEdge> g = prim.algorithm((WeightedGraph<String, DefaultWeightedEdge>)graph4);
-		WeightedGraph<String, DefaultWeightedEdge> g2 = prim.algorithmWithFibo((WeightedGraph<String, DefaultWeightedEdge>)graph4);
-		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));
+		SearchResult g = prim.algorithm((WeightedGraph<String, DefaultWeightedEdge>)graph4);
+		SearchResult g2 = prim.algorithmWithFibo((WeightedGraph<String, DefaultWeightedEdge>)graph4);
 		
-		
-		Kruskal<String> kruskal = new Kruskal<String>();
-		SearchResult res = kruskal.searchSpanningTree((WeightedGraph<String, DefaultWeightedEdge>) graph4);
-		assertTrue(res.getGraph().edgeSet().containsAll(g2.edgeSet()));
-		
-		List<DefaultWeightedEdge> path = new ArrayList<DefaultWeightedEdge>();
-		for(DefaultWeightedEdge e : g.edgeSet()){
-			System.out.println("Test THIS: "+ e +" ("+graph4.getEdgeWeight(e)+"), ");
-//			assertTrue(graph4_spanningTree.contains(e));
-			path.add(e);
+		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) g.getPath()){
+			assertTrue(graph4_spanningTree.contains(s));
 		}
 		
 		try {
-			GraphvizAdapter.buildDotFile2("Prim_Graph4", (WeightedGraph<String, DefaultWeightedEdge>) g, path);
+			GraphvizAdapter.buildDotFile2("Prim_Graph4", (WeightedGraph<String, DefaultWeightedEdge>) graph4, g.getPath());
 			GraphvizAdapter.compileDotFile("Prim_Graph4");
 		} catch(Exception ex){
 			fail("Could not draw Graph file.");
@@ -135,33 +124,94 @@ public class a3Test {
 		System.out.println("");
 	}
 	
+	@Test
+	public void prim_graph5_test(){
+		Prim<String> prim= new Prim<String>();
+		SearchResult g = prim.algorithm((WeightedGraph<String, DefaultWeightedEdge>)graph5);
+		
+		double weight = 0.0;
+		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) g.getPath()){
+			weight += graph5.getEdgeWeight(s);
+		}
+		
+		double[] a = new double[1];
+		double[] b = new double[1];
+		a[0] = 17.0;
+		b[0] = weight;
+		assertArrayEquals("Yeag", a, b, 1.0);
+		
+		try {
+			GraphvizAdapter.buildDotFile2("Prim_Graph5",  (WeightedGraph<String, DefaultWeightedEdge>) g.getGraph(), g.getPath());
+			GraphvizAdapter.compileDotFile("Prim_Graph5");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	@Test
+	public void prim_graph5_fibo_test(){
+		Prim<String> prim= new Prim<String>();
+		SearchResult g = prim.algorithmWithFibo((WeightedGraph<String, DefaultWeightedEdge>)graph5);
+		
+		double weight = 0.0;
+		
+		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) g.getPath()){
+			weight += graph5.getEdgeWeight(s);
+		}
+		
+		double[] a = new double[1];
+		double[] b = new double[1];
+		a[0] = 17.0;
+		b[0] = weight;
+		assertArrayEquals("Yeag", a, b, 1.0);
+		
+		try {
+			GraphvizAdapter.buildDotFile2("Prim_Graph5", (WeightedGraph<String, DefaultWeightedEdge>) g.getGraph(), g.getPath());
+			GraphvizAdapter.compileDotFile("Prim_Graph5");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	
 	
 	@Test
 	public void prim_graphGen_test()
 	{
-		Prim<AttributedNode<String>> prim = new Prim<AttributedNode<String>>();
-		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g = prim.algorithm(genGraph);
-		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g2 = prim.algorithm(genGraph);
-		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));		
+//		Prim<AttributedNode<String>> prim = new Prim<AttributedNode<String>>();
+//		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g = prim.algorithm(genGraph);
+//		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g2 = prim.algorithm(genGraph);
+//		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));		
 	}
 	
 	@Test
 	public void bigGraph_test(){
 		Prim<AttributedNode<String>> prim = new Prim<AttributedNode<String>>();
-		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g = prim.algorithm(genGraph);
+		SearchResult g = prim.algorithm(genGraph);
+		Prim<AttributedNode<String>> prim1 = new Prim<AttributedNode<String>>();
+		SearchResult g1 = prim.algorithmWithFibo(genGraph);
 		
 		Kruskal<AttributedNode<String>> kruskal = new Kruskal<AttributedNode<String>>();
 		SearchResult result = kruskal.searchSpanningTree((WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) genGraph);
-		printTestResult("Test: Kruskal - Big Graph", result);
 		
 		//assertTrue(g.edgeSet().containsAll(result.getPath()));
 		
 		System.out.println("Anzahl der Knoten: "+genGraph.vertexSet().size());
-		System.out.println("Anzahl der Kanten: "+result.getPath().size());
+		System.out.println("Anzahl der Kanten: "+genGraph.edgeSet().size());
+		System.out.println("Anzahl der Kanten Kruskal: "+result.getPath().size());
+		System.out.println("Anzahl der Kanten Prim: "+g.getPath().size());
+		System.out.println("Anzahl der Kanten PrimFibu: "+g1.getAccsessCounter());
+		
+		System.out.println("Kruskal Zugriffe "+result.getAccsessCounter());
+		System.out.println("Prim Zugriffe "+g.getAccsessCounter());
 		
 		try {
-			GraphvizAdapter.buildDotFile3("BigGraph", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
-			GraphvizAdapter.compileDotFile("BigGraph");
+//			GraphvizAdapter.buildDotFile3("BigGraph", (WeightedGraph<AttributedNode<String>, DefaultWeightedEdge>) result.getGraph(), result.getPath());
+//			GraphvizAdapter.compileDotFile("BigGraph");
 		} catch(Exception ex){
 			ex.printStackTrace();
 			fail("Could not draw Graph file.");
