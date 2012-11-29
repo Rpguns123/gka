@@ -23,7 +23,7 @@ public class Prim<T extends Comparable<T>> {
 
 	public SearchResult algorithm(
 			WeightedGraph<T, DefaultWeightedEdge> graph) {
-		int acc = 0,accWeight=0;
+		int acc = 0;
 		Set<T> nodeSet = new HashSet<T>(graph.vertexSet());
 		Iterator<T> it = nodeSet.iterator();
 		T sourceNode = it.next();
@@ -31,9 +31,7 @@ public class Prim<T extends Comparable<T>> {
 		WeightedGraph<T, DefaultWeightedEdge> newGraph = new WeightedPseudograph<T, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
 		newGraph.addVertex(sourceNode);
-
-		int nodeCount = nodeSet.size();
-
+		acc++;
 		List<T> neigh;
 		List<DefaultWeightedEdge> l = new ArrayList<DefaultWeightedEdge>();
 		PriorityQueue<QueueEntry<T>> prioQueue = new PriorityQueue<QueueEntry<T>>();
@@ -43,11 +41,12 @@ public class Prim<T extends Comparable<T>> {
 			neigh.retainAll(nodeSet);// Also die Schnittmenge der Nachbarn udn der noch nicht vorhandenen Knoten.
 			for (T node : neigh)// Alle Kanten suchen die von uns abgehen.
 			{
+				acc++;
 				prioQueue.add(getQueueEntry(
 						graph.getAllEdges(sourceNode, node), graph));// Falls wir PArallelen haben muessen wuir alle Edges hinzufuegen.
 			}
 			QueueEntry<T> q = prioQueue.poll();
-
+			acc++;
 			newGraph.addVertex(q.getTargetNode());
 			newGraph.addVertex(q.getSourceNode());
 			newGraph.addEdge(q.getSourceNode(), q.getTargetNode(), q.getEdge());
@@ -61,7 +60,7 @@ public class Prim<T extends Comparable<T>> {
 				nodeSet.remove(q.getSourceNode());
 				}catch(NullPointerException ex){}
 				graph.setEdgeWeight(q.getEdge(), q.getWeight());
-				accWeight+=q.getWeight();
+				
 			}
 			if(sourceNode != q.getTargetNode())
 				{
@@ -74,7 +73,6 @@ public class Prim<T extends Comparable<T>> {
 		SearchResult s = new SearchResult(newGraph,
 				new ArrayList<DefaultWeightedEdge>(newGraph.edgeSet()), null,
 				acc);
-		System.out.println("Prim mit Prio:\n______________________\nZugriffe: "+acc+"\nGesamtGewicht: "+accWeight);
 		return s;
 	}
 
