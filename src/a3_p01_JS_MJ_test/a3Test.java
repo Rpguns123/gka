@@ -35,6 +35,8 @@ public class a3Test {
 		genGraph = GraphGenerator.generateAttributedWeightedGraph(200, 40);
 		graph4_spanningTree = new ArrayList<DefaultWeightedEdge>(){{
 			add((DefaultWeightedEdge) graph4.getEdge("a", "c")); //3
+			
+			add((DefaultWeightedEdge) graph4.getEdge("c", "a")); //3
 			add((DefaultWeightedEdge) graph4.getEdge("a", "b")); //2
 			add((DefaultWeightedEdge) graph4.getEdge("h", "b")); //1
 			add((DefaultWeightedEdge) graph4.getEdge("e", "b")); //2
@@ -49,12 +51,19 @@ public class a3Test {
 	
 	@Test
 	public void kruskal_graph4_test(){
-		@SuppressWarnings("unchecked")
 		SearchResult result = Kruskal.searchSpanningTree((WeightedGraph<String, DefaultWeightedEdge>) graph4);
 		printTestResult("Test 1: Kruskal - Graph 4", result);
 		
+		System.out.print("Path: ");
+		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) graph4_spanningTree){
+			System.out.print(s+ " ("+graph4.getEdgeWeight(s)+"), ");
+		}
+		
+		System.out.println();
+		
 		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) result.getPath()){
-//			assertTrue(graph4_spanningTree.contains(s));
+			System.out.println("Test THIS: "+ s +" ("+graph4.getEdgeWeight(s)+"), ");
+			assertTrue(graph4_spanningTree.contains(s));
 		}
 		
 		try {
@@ -77,6 +86,22 @@ public class a3Test {
 		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));
 		SearchResult res = Kruskal.searchSpanningTree((WeightedGraph<String, DefaultWeightedEdge>)graph4);
 		assertTrue(res.getGraph().edgeSet().containsAll(g2.edgeSet()));
+		
+		List<DefaultWeightedEdge> path = new ArrayList<DefaultWeightedEdge>();
+		for(DefaultWeightedEdge e : g.edgeSet()){
+			System.out.println("Test THIS: "+ e +" ("+graph4.getEdgeWeight(e)+"), ");
+			assertTrue(graph4_spanningTree.contains(e));
+			path.add(e);
+		}
+		
+		try {
+			GraphvizAdapter.buildDotFile2("Prim_Graph4", (WeightedGraph<String, DefaultWeightedEdge>) g, path);
+			GraphvizAdapter.compileDotFile("Prim_Graph4");
+		} catch(Exception ex){
+			fail("Could not draw Graph file.");
+		}
+		System.out.println("Test Green.");
+		System.out.println("");
 	}
 	
 	
@@ -88,11 +113,12 @@ public class a3Test {
 		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g2 = prim.algorithm(genGraph);
 		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));		
 	}
+	
 	public void printTestResult(String testname, SearchResult result){
 		System.out.println(testname);
 		System.out.print("Path: ");
 		for(DefaultWeightedEdge s : (ArrayList<DefaultWeightedEdge>) result.getPath()){
-			System.out.print(s+ ", ");
+			System.out.print(s+ " ("+graph4.getEdgeWeight(s)+"), ");
 		}
 		System.out.println("");
 		System.out.println("Path Length " + result.getPathLength());
