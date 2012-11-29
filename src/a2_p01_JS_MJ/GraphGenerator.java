@@ -12,6 +12,7 @@ public class GraphGenerator {
 
 	public static int EDGES_PER_NODE = 40;
     public static WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> generateAttributedWeightedGraph(int nodeCount){
+    	EDGES_PER_NODE = 5;
         WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> graph = new WeightedPseudograph<AttributedNode<String>, DefaultWeightedEdge>(DefaultWeightedEdge.class);
         List<AttributedNode<String>> ary =new ArrayList<AttributedNode<String>>(nodeCount);
         AttributedNode<String> target= new AttributedNode<String>("target", 0);
@@ -29,7 +30,6 @@ public class GraphGenerator {
             {
             	AttributedNode<String > n;
             	do{
-
                 n = ary.get((int)(Math.random()*nodeCount));
             	}while(n.equals(elem));//Keine Schleifen zulassen.
                 graph.addEdge(elem, n);            	
@@ -73,6 +73,8 @@ public class GraphGenerator {
                 graph.setEdgeWeight(graph.getEdge(elem, n), weight);
                
             }
+            graph.addEdge(elem, target);
+            graph.setEdgeWeight(graph.getEdge(elem, target), Math.PI*ary.size()+2);
         }
        
         return graph;
