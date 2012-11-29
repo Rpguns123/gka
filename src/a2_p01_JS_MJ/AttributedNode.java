@@ -1,7 +1,7 @@
 package a2_p01_JS_MJ;
 
 
-public class AttributedNode<E extends  Comparable<E>> {
+public class AttributedNode<E extends  Comparable<E>> implements Comparable<AttributedNode<E>>{
     private E value;
     double attribute;
     public  AttributedNode(E value, double attribute)
@@ -39,6 +39,11 @@ public class AttributedNode<E extends  Comparable<E>> {
     @Override
 	public int hashCode() {
     	return value.hashCode();
+	}
+
+	@Override
+	public int compareTo(AttributedNode<E> o) {
+		return (int)(this.getAttribute()-o.getAttribute());
 	}
 	
 	

@@ -16,6 +16,7 @@ import a1_p01_JS_MJ.GraphvizAdapter;
 import a1_p01_JS_MJ.SearchResult;
 import a2_p01_JS_MJ.AttributedNode;
 import a2_p01_JS_MJ.Dijkstra;
+import a2_p01_JS_MJ.GraphGenerator;
 import a3_p01_JS_MJ.Kruskal;
 import a3_p01_JS_MJ.Prim;
 
@@ -23,7 +24,7 @@ public class a3Test {
 
 	static Graph graph4;
 	static List<DefaultWeightedEdge> graph4_spanningTree;
-	
+	static WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> genGraph ;
 	@BeforeClass
 	public static void init() {		
 		try {
@@ -31,7 +32,7 @@ public class a3Test {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		
+		genGraph = GraphGenerator.generateAttributedWeightedGraph(200, 40);
 		graph4_spanningTree = new ArrayList<DefaultWeightedEdge>(){{
 			add((DefaultWeightedEdge) graph4.getEdge("a", "c")); //3
 			add((DefaultWeightedEdge) graph4.getEdge("a", "b")); //2
@@ -67,19 +68,26 @@ public class a3Test {
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	@Test
 	public void prim_graph4_test(){
-		Prim<String> prim= new Prim();
+		Prim<String> prim= new Prim<String>();
 		WeightedGraph<String, DefaultWeightedEdge> g = prim.algorithm((WeightedGraph<String, DefaultWeightedEdge>)graph4);
 		WeightedGraph<String, DefaultWeightedEdge> g2 = prim.algorithmWithFibo((WeightedGraph<String, DefaultWeightedEdge>)graph4);
 		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));
-//		System.out.println("graph4_spanningTree: "+ graph4_spanningTree);
-//		System.out.println("prim: "+g.edgeSet());
-//		assertTrue(g.edgeSet().containsAll(graph4_spanningTree));//TODO Edges sind teilweise in unterschiedlicher Form: A:C anstatt C:A
-		System.out.println("Foo");
+		SearchResult res = Kruskal.searchSpanningTree((WeightedGraph<String, DefaultWeightedEdge>)graph4);
+		assertTrue(res.getGraph().edgeSet().containsAll(g2.edgeSet()));
 	}
 	
+	
+	@Test
+	public void prim_graphGen_test()
+	{
+		Prim<AttributedNode<String>> prim = new Prim<AttributedNode<String>>();
+		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g = prim.algorithm(genGraph);
+		WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> g2 = prim.algorithm(genGraph);
+		assertTrue(g.edgeSet().containsAll(g2.edgeSet()));		
+	}
 	public void printTestResult(String testname, SearchResult result){
 		System.out.println(testname);
 		System.out.print("Path: ");
