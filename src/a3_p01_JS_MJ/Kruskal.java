@@ -21,18 +21,20 @@ public class Kruskal {
 		ArrayList<DefaultWeightedEdge> edges = new ArrayList<DefaultWeightedEdge>(edgeSet.size());
 		ArrayList<Double> weight = new ArrayList<Double>(edgeSet.size());
 		for(DefaultWeightedEdge e : edgeSet){
+			
+			System.out.println("Test1: "+ e +" ("+graph.getEdgeWeight(e)+"), ");
+
+			accesses++;
 			if(edges.isEmpty()){
 				edges.add(e);
 				weight.add(graph.getEdgeWeight(e));	
 			} else {
 				double w = graph.getEdgeWeight(e);
-				boolean b = false;
 				boolean b = true;
 				for(int i=0; i<weight.size();i++){
 					if(w < weight.get(i)){
 						edges.add(i, e);
 						weight.add(i, w);
-						b = true;
 						b = false;
 						break;						
 					}
@@ -43,6 +45,7 @@ public class Kruskal {
 				}
 			}
 		}
+		System.out.println();
 		
 		Set<String> vertexSet = graph.vertexSet();
 		Map<String, Integer> komponents = new HashMap<String, Integer>();
@@ -52,7 +55,6 @@ public class Kruskal {
 			komponentId++;
 		}
 		
-		Set<String> pathVertexes = new HashSet<String>();
 		List<DefaultWeightedEdge> path = new ArrayList<DefaultWeightedEdge>();
 		for(DefaultWeightedEdge e : edges){
 			accesses++;
@@ -60,8 +62,6 @@ public class Kruskal {
 			String target = graph.getEdgeTarget(e);
 			
 			if(komponents.get(source) != komponents.get(target)){
-				pathVertexes.add(source);
-				pathVertexes.add(target);
 				path.add(e);
 				
 				int idS = komponents.get(source);
@@ -73,11 +73,6 @@ public class Kruskal {
 					}
 				}
 			}
-		}
-		
-		List<String> path = new ArrayList<String>();
-		for(String s : vertexSet){
-			path.add(s);
 		}
 		
 		return new SearchResult(graph, path, null, accesses);
