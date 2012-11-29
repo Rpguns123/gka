@@ -6,7 +6,7 @@ public class Util {
 
 	public static boolean checkForCircles(Graph<?,?> g)
 	{
-		return (g.vertexSet().size()==(g.edgeSet().size()+1));
+		return !(g.vertexSet().size()==(g.edgeSet().size()+1));
 	}
 	
 }
