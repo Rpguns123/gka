@@ -19,11 +19,11 @@ import a1_p01_JS_MJ.SearchResult;
 import a2_p01_JS_MJ.AttributedNode;
 
 public class Prim<T extends Comparable<T>> {
-	int acc = 0;
+	
 
-	public WeightedGraph<T, DefaultWeightedEdge> algorithm(
+	public SearchResult algorithm(
 			WeightedGraph<T, DefaultWeightedEdge> graph) {
-
+		int acc = 0,accWeight=0;
 		Set<T> nodeSet = new HashSet<T>(graph.vertexSet());
 		Iterator<T> it = nodeSet.iterator();
 		T sourceNode = it.next();
@@ -61,13 +61,21 @@ public class Prim<T extends Comparable<T>> {
 				nodeSet.remove(q.getSourceNode());
 				}catch(NullPointerException ex){}
 				graph.setEdgeWeight(q.getEdge(), q.getWeight());
+				accWeight+=q.getWeight();
 			}
-			sourceNode = q.getTargetNode();
+			if(sourceNode != q.getTargetNode())
+				{
+				sourceNode = q.getTargetNode();
+				}else
+				{
+					sourceNode = q.getSourceNode();
+				}
 		}
 		SearchResult s = new SearchResult(newGraph,
 				new ArrayList<DefaultWeightedEdge>(newGraph.edgeSet()), null,
 				acc);
-		return newGraph;
+		System.out.println("Prim mit Prio:\n______________________\nZugriffe: "+acc+"\nGesamtGewicht: "+accWeight);
+		return s;
 	}
 
 	private QueueEntry<T> getQueueEntry(Set<DefaultWeightedEdge> set,
@@ -85,9 +93,9 @@ public class Prim<T extends Comparable<T>> {
 				g.getEdgeTarget(edge), weight);
 	}
 
-	public WeightedGraph<T, DefaultWeightedEdge> algorithmWithFibo(
+	public SearchResult algorithmWithFibo(
 			WeightedGraph<T, DefaultWeightedEdge> graph) {
-
+		int acc =0,accWeight=0;
 		Set<T> nodeSet = new HashSet<T>(graph.vertexSet());
 		Iterator<T> it = nodeSet.iterator();
 
@@ -128,13 +136,21 @@ public class Prim<T extends Comparable<T>> {
 					 nodeSet.remove(q.getSourceNode());
 					 }catch (NullPointerException e){}
 					graph.setEdgeWeight(q.getEdge(), q.getWeight());
+					accWeight+=q.getWeight();
 				}
 //			}
-			sourceNode = q.getTargetNode();
+				if(sourceNode != q.getTargetNode())
+				{
+				sourceNode = q.getTargetNode();
+				}else
+				{
+					sourceNode = q.getSourceNode();
+				}
 		}
-		// SearchResult s = new SearchResult(newGraph, new
+		 SearchResult s = new SearchResult(graph, new ArrayList<DefaultWeightedEdge>(newGraph.edgeSet()),null,acc);
 		// ArrayList<DefaultWeightedEdge>(newGraph.edgeSet()), null, acc);
-		return newGraph;
+		System.out.println("Prim mit Prio:\n______________________\nZugriffe: "+acc+"\nGesamtGewicht: "+accWeight);
+		return s;
 	}
 
 }
