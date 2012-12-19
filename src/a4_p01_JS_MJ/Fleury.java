@@ -27,18 +27,23 @@ public class Fleury<T extends Comparable<T>> {
 		int accesses = 0;
 		
 		// Random Startpoint
-		T vertex = random(graph.vertexSet());
+//		T vertex = random(graph.vertexSet());
 		accesses++;
 		
+		System.out.println("Edges: "+overalledgecount);
+		T vertex = random(graph.vertexSet());
 		while(eulerianpath.size() != overalledgecount){
 			Set<DefaultEdge> edges = graph.edgesOf(vertex);
 			Set<DefaultEdge> unmakededges = new HashSet<DefaultEdge>();
 			for(DefaultEdge e : edges){
-				if(!eulerianpath.contains(e)) unmakededges.add(e);
+				if(!eulerianpath.contains(e)){
+					unmakededges.add(e);
+//					System.out.print("Add:"+ e +" ");
+				}
 				accesses++;
 			}
 			
-			if(unmakededges.size() == 0) break;
+//			if(unmakededges.size() == 0) break;
 			
 			DefaultEdge choosenedge;
 			while(true){
@@ -48,8 +53,26 @@ public class Fleury<T extends Comparable<T>> {
 				unmakededges.remove(choosenedge);
 			}
 			eulerianpath.add(choosenedge);
+			
+//			System.out.println("Start: "+vertex);
+//			System.out.println("	Edges: "+edges);
+//			System.out.println("Path: "+eulerianpath);
+//			System.out.println("Unmarked: "+eulerianpath);
+//			System.out.println("Count: "+eulerianpath.size());
+//			System.out.println();
+				
+			T s = graph.getEdgeSource(choosenedge);
+			T t = graph.getEdgeTarget(choosenedge);
+			if(s.equals(vertex)){
+				vertex = t;
+			} else {
+				vertex = s;
+			}
+			
+			System.out.print(vertex+", ");
 		}
 		
+		System.out.println();
 		return new SearchResult(graph, eulerianpath, null, accesses);
 	}
 	
@@ -59,7 +82,7 @@ public class Fleury<T extends Comparable<T>> {
 		g2.removeEdge(edge);
 		// Unmarked Graph
 		for(DefaultEdge e : eulerianpath) g2.removeEdge(e);
-		SearchResult result = Breadth_First_Search.searchShortestPath((AbstractBaseGraph<String, DefaultEdge>) g2, (String) graph.getEdgeSource(edge), (String) graph.getEdgeTarget(edge));
+		SearchResult result = Depth_First_Search.searchShortestPath((AbstractBaseGraph<String, DefaultEdge>) g2, (String) graph.getEdgeSource(edge), (String) graph.getEdgeTarget(edge));
 		
 		if(result.getPath() != null) return true;
 		return false;
@@ -68,12 +91,12 @@ public class Fleury<T extends Comparable<T>> {
 	public T random(Set<T> set){
 		ArrayList<T> arraylist = new ArrayList<T>();
 		arraylist.addAll(set);
-		return  arraylist.get((int) Math.round(Math.random()*arraylist.size()));
+		return  arraylist.get((int) Math.round(Math.random()*(arraylist.size()-1)));
 	}
 	
 	public DefaultEdge random(Set<DefaultEdge> set){
 		ArrayList<DefaultEdge> arraylist = new ArrayList<DefaultEdge>();
 		arraylist.addAll(set);
-		return  arraylist.get((int) Math.round(Math.random()*arraylist.size()));
+		return  arraylist.get((int) Math.round(Math.random()*(arraylist.size()-1)));
 	}
 }
