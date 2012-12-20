@@ -21,13 +21,9 @@ import a1_p01_JS_MJ.SearchResult;
 public class Fleury<T extends Comparable<T>> {
 
 	public SearchResult search(Pseudograph<T, DefaultEdge> graph){
-		// Result
 		ArrayList<DefaultEdge> eulerianpath = new ArrayList<DefaultEdge>(); 
 		int overalledgecount = graph.edgeSet().size();
 		int accesses = 0;
-		
-		// Random Startpoint
-//		T vertex = random(graph.vertexSet());
 		accesses++;
 		
 		System.out.println("Edges: "+overalledgecount);
@@ -38,12 +34,11 @@ public class Fleury<T extends Comparable<T>> {
 			for(DefaultEdge e : edges){
 				if(!eulerianpath.contains(e)){
 					unmakededges.add(e);
-//					System.out.print("Add:"+ e +" ");
 				}
 				accesses++;
 			}
 			
-//			if(unmakededges.size() == 0) break;
+			if(unmakededges.size() == 0) break;
 			
 			DefaultEdge choosenedge;
 			while(true){
@@ -53,13 +48,6 @@ public class Fleury<T extends Comparable<T>> {
 				unmakededges.remove(choosenedge);
 			}
 			eulerianpath.add(choosenedge);
-			
-//			System.out.println("Start: "+vertex);
-//			System.out.println("	Edges: "+edges);
-//			System.out.println("Path: "+eulerianpath);
-//			System.out.println("Unmarked: "+eulerianpath);
-//			System.out.println("Count: "+eulerianpath.size());
-//			System.out.println();
 				
 			T s = graph.getEdgeSource(choosenedge);
 			T t = graph.getEdgeTarget(choosenedge);
@@ -80,10 +68,10 @@ public class Fleury<T extends Comparable<T>> {
 	public boolean isNotBridgeEdge(Pseudograph<T, DefaultEdge> graph, ArrayList<DefaultEdge> eulerianpath,  DefaultEdge edge){
 		Pseudograph<T, DefaultEdge> g2 = (Pseudograph<T, DefaultEdge>) graph.clone();
 		g2.removeEdge(edge);
-		// Unmarked Graph
 		for(DefaultEdge e : eulerianpath) g2.removeEdge(e);
-		SearchResult result = Depth_First_Search.searchShortestPath((AbstractBaseGraph<String, DefaultEdge>) g2, (String) graph.getEdgeSource(edge), (String) graph.getEdgeTarget(edge));
-		
+//		SearchResult result = Depth_First_Search.searchShortestPath((AbstractBaseGraph<String, DefaultEdge>) g2, (String) graph.getEdgeSource(edge), (String) graph.getEdgeTarget(edge));
+		SearchResult result = Breadth_First_Search.searchShortestPath((AbstractBaseGraph<String, DefaultEdge>) g2, (String) graph.getEdgeSource(edge), (String) graph.getEdgeTarget(edge));
+		System.out.println("Accesses Search "+result.getAccsessCounter());
 		if(result.getPath() != null) return true;
 		return false;
 	}
