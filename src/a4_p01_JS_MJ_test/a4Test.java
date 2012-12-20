@@ -26,7 +26,7 @@ import a4_p01_JS_MJ.Hierholzer;
 public class a4Test {
 
 	static Graph graphk5;
-	static WeightedGraph<AttributedNode<String>, DefaultWeightedEdge> genGraph;
+	static Pseudograph<String, DefaultEdge> genGraph;
 	
 	@BeforeClass
 	public static void init() {		
@@ -35,7 +35,7 @@ public class a4Test {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		genGraph = GraphGenerator.generateAttributedWeightedGraph(150, 30);
+		genGraph = GraphGenerator.generateEulBig(300);
 	}
 	
 	@Test
@@ -48,10 +48,30 @@ public class a4Test {
 	}
 	
 	@Test
+	public void fleury_test_big(){
+		Fleury<String> fleury = new Fleury<String>();
+		SearchResult result = fleury.search((Pseudograph<String, DefaultEdge>) genGraph);
+		printTestResult("Test 2: Fleury - Graph Big", result);
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	@Test
 	public void hierholzer_test(){
 		Hierholzer<String> hierholzer = new Hierholzer<String>();
-		SearchResult result = hierholzer.algorithm((Pseudograph<String, DefaultEdge>) graphk5);
-		printTestResult("Test 1: Fleury - Graph K5", result);
+		SearchResult result = hierholzer.algorithm
+				((Pseudograph<String, DefaultEdge>) graphk5);
+		printTestResult("Test 1: Hierholzer - Graph K5", result);
+		System.out.println("Test Green.");
+		System.out.println("");
+	}
+	
+	@Test
+	public void hierholzer_test_big(){
+		Hierholzer<String> hierholzer = new Hierholzer<String>();
+		SearchResult result = hierholzer.algorithm
+				((Pseudograph<String, DefaultEdge>) genGraph);
+		printTestResult("Test 1: Hierholzer - Graph Big", result);
 		System.out.println("Test Green.");
 		System.out.println("");
 	}
@@ -63,7 +83,7 @@ public class a4Test {
 			System.out.print(s+", ");
 		}
 		System.out.println("");
-		System.out.println("Path Length " + result.getPathLength()+1);
+		System.out.println("Path Length " + (result.getPathLength()+1));
 		System.out.println("Accssess Counter: " + result.getAccsessCounter());
 	}
 }
