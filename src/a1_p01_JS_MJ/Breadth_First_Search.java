@@ -19,9 +19,12 @@ public class Breadth_First_Search {
 		open.add(start);
 		closed.put(start, 0);
 		
+		boolean found = false;
+		
 		while (!open.isEmpty()){
 			String vertex = open.remove(0);
 			if (vertex == end){
+				found = true;
 				break;
 			}
 			
@@ -38,26 +41,33 @@ public class Breadth_First_Search {
 			}
 		}
 		
-		int length = closed.get(end);
-		String[] path = new String[length+1];
-		
-		path[length] = end;
-		for(int i=length; i>=0; i--){
-			List<String> neighbor = Graphs.neighborListOf(graph, path[i]);
-			for(String s : neighbor){
-				acc++;
-				if(closed.get(s) == i-1){
-					path[i-1] = s;
-					break;
-				}
-			}
-		}
-		
-		List<String> pathList = new ArrayList<String>();
-		for(int i=0; i<path.length;i++){
-			pathList.add(path[i]);
+		if(found){
+			return new SearchResult(graph, new ArrayList<String>(), closed, acc);
+			
+//			int length = closed.get(end);
+//			String[] path = new String[length+1];
+//			
+//			path[length] = end;
+//			for(int i=length; i>=0; i--){
+//				List<String> neighbor = Graphs.neighborListOf(graph, path[i]);
+//				for(String s : neighbor){
+//					acc++;
+//					if(closed.get(s) == i-1){
+//						path[i-1] = s;
+//						break;
+//					}
+//				}
+//			}
+//			
+//			List<String> pathList = new ArrayList<String>();
+//			for(int i=0; i<path.length;i++){
+//			pathList.add(path[i]);
+//			}
+//			return new SearchResult(graph, pathList, closed, acc);
+		} else {
+			return new SearchResult(graph, null, closed, acc);
 		}
 			
-		return new SearchResult(graph, pathList, closed, acc);
+		
 	}
 }
