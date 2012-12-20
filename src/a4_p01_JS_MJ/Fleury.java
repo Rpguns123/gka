@@ -71,7 +71,6 @@ public class Fleury<T extends Comparable<T>> {
 		for(DefaultEdge e : eulerianpath) g2.removeEdge(e);
 //		SearchResult result = Depth_First_Search.searchShortestPath((AbstractBaseGraph<String, DefaultEdge>) g2, (String) graph.getEdgeSource(edge), (String) graph.getEdgeTarget(edge));
 		SearchResult result = Breadth_First_Search.searchShortestPath((AbstractBaseGraph<String, DefaultEdge>) g2, (String) graph.getEdgeSource(edge), (String) graph.getEdgeTarget(edge));
-		System.out.println("Accesses Search "+result.getAccsessCounter());
 		if(result.getPath() != null) return true;
 		return false;
 	}
