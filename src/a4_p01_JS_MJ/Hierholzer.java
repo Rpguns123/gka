@@ -56,6 +56,8 @@ public class Hierholzer<T extends Comparable<T>> {
 					{
 						aktVertex = subCircleNodeList.get(index).get(i);
 //						index++;
+						accesses++;
+						index= subCircleNodeList.size();
 						found = true;
 						break;
 					}						
@@ -65,7 +67,6 @@ public class Hierholzer<T extends Comparable<T>> {
 					index--;
 				}else
 				{
-					index++;
 					break;
 				}
 			}
@@ -80,7 +81,7 @@ public class Hierholzer<T extends Comparable<T>> {
 		{
 			for (MyEdge<T> e : l)
 			{
-				
+				accesses++;
 				graph.addEdge((T)e.source, (T)e.target, e.edge);
 				
 			}
@@ -136,7 +137,7 @@ public class Hierholzer<T extends Comparable<T>> {
 			{				
 				path.add(edge);
 				target = graph.getEdgeTarget(edge);
-				int degree = graph.degreeOf(target);
+				accesses++;
 				if(graph.degreeOf(target)>2)
 				{
 					for(int i = index+1;i<subCircleList.size();i++)
@@ -187,11 +188,12 @@ public class Hierholzer<T extends Comparable<T>> {
 		{
 			List<T> neigh = Graphs.neighborListOf(graph, aktVertex);
 			target = neigh.remove(0);
-			DefaultEdge edge =graph.getEdge(aktVertex, target); 
-			subCircle.add(new MyEdge<T>(graph.getEdgeSource(edge),graph.getEdgeTarget(edge), edge));
+			DefaultEdge edge =graph.getEdge(aktVertex, target); 			
+			subCircle.add(new MyEdge<T>(graph.getEdgeSource(edge),graph.getEdgeTarget(edge), edge));			
 			subCircleNodes.add(graph.getEdgeSource(edge));
 			subCircleNodes.add(graph.getEdgeTarget(edge));
 			graph.removeEdge(edge);
+			accesses++;
 			edgeSet.remove(edge);
 			aktVertex=target;
 			//TODO was machen wenn kein Weg gefunden wird!
