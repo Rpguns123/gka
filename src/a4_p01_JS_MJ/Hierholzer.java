@@ -21,7 +21,7 @@ public class Hierholzer<T extends Comparable<T>> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SearchResult algorithm(UndirectedGraph<T, DefaultEdge> graph)
 	{
-		List<HashSet<T>> subCircleNodeList = new ArrayList();
+		List<List<T>> subCircleNodeList = new ArrayList();
 		List<List<MyEdge<T>>> subCircleList = new ArrayList();
 		HashSet<DefaultEdge> edgeSet = new HashSet(graph.edgeSet());
 		List<T> vertexList = new ArrayList(graph.vertexSet());
@@ -43,10 +43,34 @@ public class Hierholzer<T extends Comparable<T>> {
 			}
 		}	
 		//UndirectedGraph<T, DefaultEdge> g;
+		int index = 0;
+		T aktVertex = vertexList.remove(0);
 		while(!edgeSet.isEmpty())
 		{
-			T aktVertex = vertexList.remove(0);
-			if(graph.degreeOf(aktVertex)>0){				
+			while(!subCircleNodeList.isEmpty() && !subCircleNodeList.get(index).isEmpty())
+			{
+				boolean found = false;
+				for(int i = 1;i<subCircleNodeList.get(index).size();++i)
+				{
+					if (graph.degreeOf(subCircleNodeList.get(index).get(i))>0)
+					{
+						aktVertex = subCircleNodeList.get(index).get(i);
+//						index++;
+						found = true;
+						break;
+					}						
+				}
+				if(!found)
+				{
+					index--;
+				}else
+				{
+					index++;
+					break;
+				}
+			}
+			
+			if(graph.degreeOf(aktVertex)>0){
 				List<MyEdge<T>> _tmp = buildSubCircle2(aktVertex, edgeSet, graph,subCircleNodeList);
 				if(_tmp!=null)
 					subCircleList.add(_tmp);
@@ -68,7 +92,7 @@ public class Hierholzer<T extends Comparable<T>> {
 	
 
 	
-	private List<DefaultEdge> createPath(List<List<MyEdge<T>>> subCircleList, UndirectedGraph<T, DefaultEdge> graph,List<HashSet<T>> subCircleNodeList) {
+	private List<DefaultEdge> createPath(List<List<MyEdge<T>>> subCircleList, UndirectedGraph<T, DefaultEdge> graph,List<List<T>> subCircleNodeList) {
 		List<DefaultEdge> path = new ArrayList();
 		List<Integer> edgeNumbers = new ArrayList(subCircleList.size());
 		boolean pathUnfinished = true;
@@ -153,12 +177,12 @@ public class Hierholzer<T extends Comparable<T>> {
 		return path;
 	}
 
-	private List<MyEdge<T>> buildSubCircle2(T vertex, HashSet<DefaultEdge> edgeSet,UndirectedGraph<T, DefaultEdge>graph, List<HashSet<T>> subCircleNodeList)
+	private List<MyEdge<T>> buildSubCircle2(T vertex, HashSet<DefaultEdge> edgeSet,UndirectedGraph<T, DefaultEdge>graph, List<List<T>> subCircleNodeList)
 	{
 		T aktVertex = vertex;
 		T target = null;
 		List<MyEdge<T>> subCircle = new ArrayList();
-		HashSet<T> subCircleNodes = new HashSet();
+		List<T> subCircleNodes = new ArrayList();
 		while(!vertex.equals(target))
 		{
 			List<T> neigh = Graphs.neighborListOf(graph, aktVertex);
